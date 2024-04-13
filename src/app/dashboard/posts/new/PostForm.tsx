@@ -63,7 +63,7 @@ const PostForm = (props: PostFormProps) => {
   return (
     <>
       {postMutation.isPending && <PostFormLoader />}
-
+      <PostFormLoader />
       {postMutation.isSuccess && <div>Post created successfully</div>}
       <Form {...form}>
         <form

@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const PostFormLoader = () => {
-  console.log("test");
   return (
     <Card>
       <CardHeader>

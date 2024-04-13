@@ -22,7 +22,6 @@ export const LANGUAGES = {
   Portuguese: "🇵🇹",
   Italian: "🇮🇹",
   Arabic: "🇸🇦",
-  Test: "",
 } as const;
 
 export const PostModeDataMap: Record<
