@@ -25,6 +25,9 @@ import { LANGUAGES, PostModeDataMap } from "./post.const";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { PostMode } from "@prisma/client";
 import { Button } from "@/components/ui/button";
+import { PostFormLoader } from "./PostFormLoader";
+import { AlertTriangle } from "lucide-react";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 
 export type PostFormProps = {
   defaultSource?: string;
@@ -59,6 +62,9 @@ const PostForm = (props: PostFormProps) => {
 
   return (
     <>
+      {postMutation.isPending && <PostFormLoader />}
+
+      {postMutation.isSuccess && <div>Post created successfully</div>}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -143,6 +149,14 @@ const PostForm = (props: PostFormProps) => {
               </FormItem>
             )}
           />
+          {postMutation.isError && (
+            <Alert>
+              <AlertTriangle size={24} />
+              <AlertTitle>
+                {postMutation.error?.message || "An error occured"}
+              </AlertTitle>
+            </Alert>
+          )}
           <Button type="submit" disabled={postMutation.isPending}>
             {postMutation.isPending ? "Creating ..." : "Create"}
           </Button>

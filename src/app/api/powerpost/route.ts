@@ -36,7 +36,7 @@ export const POST = async (req: Request) => {
       data: {
         title,
         content: markdown,
-        powerPost: markdown,
+        powerPost: powerpost,
         source: data.source,
         coverUrl,
         id:
