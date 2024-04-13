@@ -1,6 +1,4 @@
 import { openai } from "@/openai";
-import { PostMode } from "@prisma/client";
-import { getPowerPostPrompt } from "./get-powerpost-prompt";
 
 export const generateTitle = async ({ markdown }: { markdown: string }) => {
   const result = await openai.chat.completions.create({

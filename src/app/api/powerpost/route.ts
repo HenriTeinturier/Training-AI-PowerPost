@@ -1,9 +1,5 @@
-import { PostSchema } from "@/app/dashboard/posts/new/post.schema";
 import { NextResponse } from "next/server";
-import { scrapPost } from "./scrap-post";
-import { generatePowerpost } from "./generate-powerpost";
-import { generateTitle } from "./generate-title";
-import { auth, requiredAuth } from "@/auth/helper";
+import { requiredAuth } from "@/auth/helper";
 import { prisma } from "@/prisma";
 
 export const POST = async (req: Request) => {
@@ -18,26 +14,15 @@ export const POST = async (req: Request) => {
 
   try {
     const body = await req.json();
-    const data = PostSchema.parse(body);
-
-    const { markdown, coverUrl } = await scrapPost(data.source);
-
-    const powerpost = await generatePowerpost({
-      markdown,
-      mode: data.mode,
-      language: data.language,
-    });
-
-    const title = await generateTitle({
-      markdown,
-    });
+    // const data = PostSchema.parse(body);
+    const { markdown, powerpost, source, coverUrl, title } = body;
 
     const finalPost = await prisma.post.create({
       data: {
         title,
         content: markdown,
         powerPost: powerpost,
-        source: data.source,
+        source: source,
         coverUrl,
         id:
           title.replaceAll(" ", "-").toLowerCase() +

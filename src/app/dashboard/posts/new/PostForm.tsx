@@ -4,8 +4,6 @@ import { PostSchema } from "./post.schema";
 import { useMutation } from "@tanstack/react-query";
 import {
   Form,
-  FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,26 +26,83 @@ import { Button } from "@/components/ui/button";
 import { PostFormLoader } from "./PostFormLoader";
 import { AlertTriangle } from "lucide-react";
 import { Alert, AlertTitle } from "@/components/ui/alert";
+import usePostCreationStatus, {
+  StageName,
+} from "@/app/hook/Posts/usePostCreationStatus";
+import { useRouter } from "next/navigation";
 
 export type PostFormProps = {
   defaultSource?: string;
 };
 
 const PostForm = (props: PostFormProps) => {
+  const { startLoading, finishLoading, reset } = usePostCreationStatus();
+  const router = useRouter();
   function onSubmit(values: z.infer<typeof PostSchema>) {
     postMutation.mutate(values);
   }
 
   const postMutation = useMutation({
     mutationFn: async (values: PostSchema) => {
-      const result = await fetch("/api/powerpost", {
+      reset();
+      startLoading(StageName.Fetching);
+      startLoading(StageName.GeneratingCover);
+      const scrapPostResponse = await fetch("/api/powerpost/scrap-post", {
         method: "POST",
         body: JSON.stringify(values),
       });
+      const { markdown, coverUrl } = await scrapPostResponse.json();
+      finishLoading(StageName.Fetching);
+      finishLoading(StageName.GeneratingCover);
+
+      startLoading(StageName.CreatingPost);
+      const generatePowerpostResponse = await fetch(
+        "/api/powerpost/generate-powerpost",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            markdown,
+            values,
+          }),
+        }
+      );
+      const powerpost: string = await generatePowerpostResponse.json();
+      finishLoading(StageName.CreatingPost);
+
+      startLoading(StageName.FindingTitle);
+      const generateTitleResponse = await fetch(
+        "/api/powerpost/generate-title",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            markdown,
+          }),
+        }
+      );
+      const title: string = await generateTitleResponse.json();
+      finishLoading(StageName.FindingTitle);
+
+      startLoading(StageName.PublishingPost);
+      const result = await fetch("/api/powerpost", {
+        method: "POST",
+        body: JSON.stringify({
+          markdown,
+          powerpost,
+          source: values.source,
+          title,
+          coverUrl,
+        }),
+      });
+      finishLoading(StageName.PublishingPost);
 
       const json = await result.json();
 
       return json;
+    },
+    onSuccess: () => {
+      setTimeout(() => {
+        router.push("/dashboard/posts");
+      }, 1000);
     },
   });
 
@@ -63,7 +118,7 @@ const PostForm = (props: PostFormProps) => {
   return (
     <>
       {postMutation.isPending && <PostFormLoader />}
-      <PostFormLoader />
+      {/* <PostFormLoader /> */}
       {postMutation.isSuccess && <div>Post created successfully</div>}
       <Form {...form}>
         <form
