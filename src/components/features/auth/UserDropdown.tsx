@@ -29,7 +29,7 @@ export const UserDropdown = ({ children }: PropsWithChildren) => {
           <form
             action={async () => {
               "use server";
-              await signOut();
+              await signOut({ redirect: true, redirectTo: "/" });
             }}
           >
             <Button

@@ -1,9 +1,7 @@
 import {
   Layout,
   LayoutContent,
-  LayoutDescription,
   LayoutHeader,
-  LayoutTitle,
 } from "@/components/features/layout/Layout";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { prisma } from "@/prisma";
@@ -11,6 +9,8 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { ArticleWrapper } from "./ArticleWrapper";
 import PostConfig from "./PostConfig";
+import rehypePrism from "rehype-prism-plus";
+import "./code-theme.scss";
 
 const PostDetail = async ({
   params,
@@ -62,7 +62,14 @@ const PostDetail = async ({
       </LayoutContent>
       <LayoutContent>
         <ArticleWrapper>
-          <MDXRemote source={post?.powerPost ?? ""} />
+          <MDXRemote
+            options={{
+              mdxOptions: {
+                rehypePlugins: [rehypePrism],
+              },
+            }}
+            source={post?.powerPost ?? ""}
+          />
         </ArticleWrapper>
       </LayoutContent>
     </Layout>
