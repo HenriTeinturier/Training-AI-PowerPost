@@ -1,8 +1,6 @@
-import { PostSchema } from "@/app/dashboard/posts/new/post.schema";
 import { requiredAuth } from "@/auth/helper";
 import { NextResponse } from "next/server";
-import { generatePowerpost } from "../generate-powerpost";
-import { generateTitle } from "../generate-title";
+import { openai } from "@/openai";
 
 export const POST = async (req: Request) => {
   const user = await requiredAuth();
@@ -17,8 +15,35 @@ export const POST = async (req: Request) => {
   try {
     const body = await req.json();
     const { markdown } = body;
+    const openaiInstance = openai();
+    if (!openaiInstance) {
+      throw new Error("No OpenAI key found");
+    }
+    const result = await openaiInstance.chat.completions.create({
+      model: "gpt-3.5-turbo-0125",
+      messages: [
+        {
+          role: "system",
+          content: `find the title of this article and return it.
+          If you find a title, return it whitout any transformation.
+          You receive a markdown text and you need to return the title of the article.
+          Generally, the title is the first line of the article and or with # at the beginning of the line.
+          `,
+        },
+        {
+          role: "user",
+          content: markdown,
+        },
+      ],
+    });
+    const title = result.choices[0].message.content;
 
-    const title = await generateTitle({ markdown });
+    if (!title) {
+      return NextResponse.json(
+        { error: "No title generated" },
+        { status: 400 }
+      );
+    }
 
     return NextResponse.json(title);
   } catch (e) {
