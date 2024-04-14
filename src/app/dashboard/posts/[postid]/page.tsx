@@ -6,7 +6,6 @@ import {
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { prisma } from "@/prisma";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import Link from "next/link";
 import { ArticleWrapper } from "./ArticleWrapper";
 import PostConfig from "./PostConfig";
 import rehypePrism from "rehype-prism-plus";
@@ -29,8 +28,6 @@ const PostDetail = async ({
     <div>Post not found</div>;
   }
 
-  console.log("coverUrl", post?.coverUrl);
-
   return (
     <Layout>
       <LayoutHeader>
@@ -46,12 +43,14 @@ const PostDetail = async ({
             </div>
             <AlertTitle className="text-left ">
               This post is a resume of{" "}
-              <Link
+              <a
                 className="underline text-primary"
                 href={post?.source ?? "#"}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {post?.source}
-              </Link>
+              </a>
               . All right reserved to the original author.
             </AlertTitle>
           </Alert>
