@@ -5,6 +5,15 @@ import { prisma } from "@/prisma";
 export const POST = async (req: Request) => {
   const user = await requiredAuth();
 
+  const getId = (title: string) => {
+    const cleanTitle = title
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-zA-Z0-9]/g, "-")
+      .toLowerCase();
+    return cleanTitle + Math.random().toString(36).substring(7);
+  };
+
   if (!user) {
     return NextResponse.json(
       { error: "You must be authenticated to access this resource." },
@@ -24,10 +33,7 @@ export const POST = async (req: Request) => {
         powerPost: powerpost,
         source: source,
         coverUrl,
-        id:
-          title.replaceAll(" ", "-").toLowerCase() +
-          "-" +
-          Math.random().toString(36).substring(7),
+        id: getId(title),
         userId: user.id,
       },
     });
