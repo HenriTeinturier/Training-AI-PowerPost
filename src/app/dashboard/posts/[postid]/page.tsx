@@ -9,6 +9,8 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { prisma } from "@/prisma";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
+import { ArticleWrapper } from "./ArticleWrapper";
+import PostConfig from "./PostConfig";
 
 const PostDetail = async ({
   params,
@@ -36,9 +38,13 @@ const PostDetail = async ({
           style={{ backgroundImage: `url(${post?.coverUrl})` }}
           className="bg-cover bg-center p-8 h-96 flex flex-col items-center justify-center text-white text-center w-full rounded-md gap-4"
         >
-          <LayoutTitle>Post page reader</LayoutTitle>
-          <Alert className="bg-card/80">
-            <AlertTitle className=" ">
+          <Alert className="bg-gray-300/80 dark:bg-gray-900/80 ">
+            <div>
+              <AlertTitle className="font-bold text-left text-2xl">
+                {post?.title}
+              </AlertTitle>
+            </div>
+            <AlertTitle className="text-left ">
               This post is a resume of{" "}
               <Link
                 className="underline text-primary"
@@ -49,13 +55,15 @@ const PostDetail = async ({
               . All right reserved to the original author.
             </AlertTitle>
           </Alert>
-          {/* <LayoutDescription>{post?.title}</LayoutDescription> */}
         </div>
       </LayoutHeader>
       <LayoutContent>
-        <article className="prose dark:prose-invert">
+        <PostConfig />
+      </LayoutContent>
+      <LayoutContent>
+        <ArticleWrapper>
           <MDXRemote source={post?.powerPost ?? ""} />
-        </article>
+        </ArticleWrapper>
       </LayoutContent>
     </Layout>
   );

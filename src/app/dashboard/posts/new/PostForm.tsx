@@ -100,10 +100,8 @@ const PostForm = (props: PostFormProps) => {
 
       return json;
     },
-    onSuccess: () => {
-      setTimeout(() => {
-        router.push("/dashboard/posts");
-      }, 1000);
+    onSuccess: (powerpost) => {
+      router.push(`/dashboard/posts/${powerpost.id}`);
     },
   });
 
