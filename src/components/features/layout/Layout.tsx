@@ -37,6 +37,15 @@ export const LayoutTitle = (props: ComponentPropsWithoutRef<"h1">) => {
   );
 };
 
+export const LayoutDescription = (props: ComponentPropsWithoutRef<"p">) => {
+  return (
+    <p
+      {...props}
+      className={cn("mt-2 text-lg text-gray-500", props.className)}
+    />
+  );
+};
+
 export const LayoutContent = (props: ComponentPropsWithoutRef<"div">) => {
   return <div {...props} className={cn("w-full", props.className)} />;
 };

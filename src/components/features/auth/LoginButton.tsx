@@ -6,7 +6,10 @@ export function LoginButton() {
     <form
       action={async () => {
         "use server";
-        await signIn("github");
+        await signIn("github", {
+          redirect: true,
+          redirectTo: "/dashboard/posts",
+        });
       }}
     >
       <Button variant="outline" type="submit" size="sm">
