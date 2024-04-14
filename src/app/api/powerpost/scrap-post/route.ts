@@ -1,13 +1,10 @@
 import { PostSchema } from "@/app/dashboard/posts/new/post.schema";
 import { requiredAuth } from "@/auth/helper";
 import { NextResponse } from "next/server";
-import { generatePowerpost } from "../generate-powerpost";
-import { generateTitle } from "../generate-title";
-import { scrapPost } from "../scrap-post";
+import { scrapPost } from "./scrap-post";
 
 export const POST = async (req: Request) => {
   const user = await requiredAuth();
-  console.log("user", user);
 
   if (!user) {
     return NextResponse.json(
@@ -19,7 +16,6 @@ export const POST = async (req: Request) => {
   try {
     const body = await req.json();
     const values = PostSchema.parse(body);
-    console.log("values in post route scrap post", values);
 
     const { markdown, coverUrl } = await scrapPost(values.source);
 
