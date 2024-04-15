@@ -37,6 +37,10 @@ export const LayoutTitle = (props: ComponentPropsWithoutRef<"h1">) => {
   );
 };
 
+export const LayoutSmall = (props: ComponentPropsWithoutRef<"div">) => {
+  return <div {...props} className={cn(props.className)} />;
+};
+
 export const LayoutDescription = (props: ComponentPropsWithoutRef<"p">) => {
   return (
     <p

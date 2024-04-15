@@ -10,6 +10,7 @@ import { ArticleWrapper } from "./ArticleWrapper";
 import PostConfig from "./PostConfig";
 import rehypePrism from "rehype-prism-plus";
 import "./code-theme.scss";
+import ChatPopover from "./ChatPopover";
 
 const PostDetail = async ({
   params,
@@ -71,6 +72,7 @@ const PostDetail = async ({
           />
         </ArticleWrapper>
       </LayoutContent>
+      <ChatPopover />
     </Layout>
   );
 };
