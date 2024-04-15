@@ -52,6 +52,7 @@ const PostConfig = () => {
             onClick={() => {
               setOpen((p) => (p ? "" : "random"));
             }}
+            asChild
           >
             <Button size="sm" variant="ghost" className="w-full">
               {open === "random" ? (
