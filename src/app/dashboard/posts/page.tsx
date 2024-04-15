@@ -37,6 +37,14 @@ const Posts = async () => {
             ))}
           </CardContent>
         </Card>
+        {/* //TODO: afficher le type de post (short, ...) dans le dashboard lien vers
+        dahsboard a coté des tags: createdpost et newpost afficher les 3
+        derniers, voir ce que melvyn a fait ajouter suppression d'un post sur
+        posts? et/ou dans detail view ajouter une navbar ? ajouter une landing
+        page ajouter de la couleur (primary couleur) transformer/modifier? un
+        post dans un autre type de post pour le pricing: ajouter juste un pay me
+        a coffe avec la logique stripe. mise a jour de createdpost quand on */}
+        ajout un nouveau post
       </LayoutContent>
     </Layout>
   );

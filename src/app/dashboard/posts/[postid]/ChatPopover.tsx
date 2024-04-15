@@ -10,11 +10,22 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useMutation } from "@tanstack/react-query";
-import { Bot, User2, X } from "lucide-react";
+import {
+  ArrowDown,
+  Bot,
+  Check,
+  Copy,
+  Square,
+  Trash2,
+  Trash2Icon,
+  User2,
+  X,
+} from "lucide-react";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import ReactMarkdown from "react-markdown";
+import { Loader } from "@/components/ui/loader";
 
 export type ChatPopoverProps = {};
 
@@ -28,6 +39,18 @@ const ChatPopover = (props: ChatPopoverProps) => {
       role: "assistant",
     },
   ]);
+  const [isAutoScrollEnabled, setIsAutoScrollEnabled] = useState(true);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const chatAbortControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    if (!isAutoScrollEnabled || !messagesContainerRef.current) {
+      return;
+    }
+
+    messagesContainerRef.current.scrollTop =
+      messagesContainerRef.current.scrollHeight;
+  }, [messages, isAutoScrollEnabled]);
 
   const submitMutation = useMutation({
     mutationFn: async (input: string) => {
@@ -38,12 +61,16 @@ const ChatPopover = (props: ChatPopoverProps) => {
 
       setMessages(newMessages);
 
+      const abortController = new AbortController();
       const response = await fetch(`/api/powerpost/${postId}/chat`, {
         method: "POST",
         body: JSON.stringify({
           messages: newMessages,
         }),
+        signal: abortController.signal,
       });
+
+      chatAbortControllerRef.current = abortController;
 
       if (!response) {
         setMessages((prev: MessagesType) => [
@@ -127,7 +154,16 @@ const ChatPopover = (props: ChatPopoverProps) => {
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight p-3 ">
           Chat
         </h3>
-        <div className="flex flex-1 flex-col gap-4 overflow-auto p-4">
+        <div
+          className="flex flex-1 flex-col gap-4 overflow-auto p-4"
+          ref={messagesContainerRef}
+          onWheel={(e) => {
+            if (!e.isTrusted || e.deltaY === 0) {
+              return;
+            }
+            setIsAutoScrollEnabled(false);
+          }}
+        >
           {messages.map((message, index) => (
             <div key={message.role + index} className="group relative">
               <LayoutSmall className="flex flex-1 flex-row items-center gap-2">
@@ -139,12 +175,17 @@ const ChatPopover = (props: ChatPopoverProps) => {
                 <ReactMarkdown className={"prose dark:prose-invert prose-sm "}>
                   {message.content}
                 </ReactMarkdown>
+                <div className="absolute group-hover:flex  right-1 top-0 flex-col gap-1 hidden">
+                  <CopyButton markdown={message.content} />
+                </div>
               </LayoutSmall>
             </div>
           ))}
+          {submitMutation.isPending &&
+            messages[messages.length - 1].role === "user" && <Loader />}
         </div>
         <form
-          className="p-3 "
+          className="p-3 relative"
           onSubmit={(e) => {
             e.preventDefault();
             if (submitMutation.isPending) {
@@ -161,6 +202,49 @@ const ChatPopover = (props: ChatPopoverProps) => {
             e.currentTarget.reset();
           }}
         >
+          <div className="absolute inset-x-0 bottom-16 flex items-start px-4">
+            {!isAutoScrollEnabled && (
+              <Button
+                type="button"
+                className="size-6 p-0"
+                variant="ghost"
+                onClick={() => {
+                  setIsAutoScrollEnabled(true);
+                }}
+              >
+                <ArrowDown size={12} />
+              </Button>
+            )}
+            {submitMutation.isPending && (
+              <Button
+                type="button"
+                className="size-6 p-0"
+                variant="ghost"
+                onClick={() => {
+                  chatAbortControllerRef.current?.abort();
+                }}
+              >
+                <Square size={12} />
+              </Button>
+            )}
+            {messages.length > 1 && (
+              <Button
+                type="button"
+                className="size-6 p-0"
+                variant="ghost"
+                onClick={() => {
+                  setMessages([
+                    {
+                      content: "Hello, how can I help you?",
+                      role: "assistant",
+                    },
+                  ]);
+                }}
+              >
+                <Trash2Icon size={12} />
+              </Button>
+            )}
+          </div>
           <Input
             disabled={submitMutation.isPending}
             placeholder="Type a message"
@@ -174,3 +258,24 @@ const ChatPopover = (props: ChatPopoverProps) => {
 };
 
 export default ChatPopover;
+
+const CopyButton = ({ markdown }: { markdown: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  return (
+    <Button
+      type="button"
+      className="size-6 p-0"
+      variant="ghost"
+      onClick={() => {
+        navigator.clipboard.writeText(markdown);
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+        }, 1000);
+      }}
+    >
+      {copied ? <Check size={12} /> : <Copy size={12} />}
+    </Button>
+  );
+};
