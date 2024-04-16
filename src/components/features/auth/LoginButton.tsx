@@ -8,7 +8,7 @@ export function LoginButton() {
         "use server";
         await signIn("github", {
           redirect: true,
-          redirectTo: "/dashboard/posts",
+          redirectTo: "/dashboard",
         });
       }}
     >
