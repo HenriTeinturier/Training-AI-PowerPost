@@ -17,6 +17,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
+  credits Int @default(5)
+  stripeCustomerId String?
   // Optional for WebAuthn support
   Authenticator Authenticator[]
  
