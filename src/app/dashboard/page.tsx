@@ -19,10 +19,16 @@ import { redirect } from "next/navigation";
 import { PowerPostCard } from "./posts/PowerPostCard";
 import { Suspense } from "react";
 
+export interface SearchParams {
+  success?: string;
+  canceled?: string;
+  [key: string]: string | string[] | undefined;
+}
+
 export default async function Dashboard({
   searchParams,
 }: {
-  [key: string]: string | string[] | undefined;
+  searchParams: SearchParams;
 }) {
   const user = await requiredAuth();
 

@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { LANGUAGES, PostModeDataMap } from "./post.const";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { PostMode } from "@prisma/client";
+import { PostMode, User } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { PostFormLoader } from "./PostFormLoader";
 import { AlertTriangle } from "lucide-react";
@@ -31,13 +31,24 @@ import usePostCreationStatus, {
   StageName,
 } from "@/app/hook/Posts/usePostCreationStatus";
 import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { toast } from "sonner";
+import Link from "next/link";
 
 export type PostFormProps = {
   defaultSource?: string;
+  user: User;
 };
 
 const PostForm = (props: PostFormProps) => {
   const { startLoading, finishLoading, reset } = usePostCreationStatus();
+  const { user } = props;
   const router = useRouter();
   function onSubmit(values: z.infer<typeof PostSchema>) {
     postMutation.mutate(values);
@@ -46,6 +57,9 @@ const PostForm = (props: PostFormProps) => {
   const postMutation = useMutation({
     mutationFn: async (values: PostSchema) => {
       reset();
+      if (!user) {
+        throw new Error("You must be authenticated to access this resource.");
+      }
       startLoading(StageName.Fetching);
       startLoading(StageName.GeneratingCover);
       const scrapPostResponse = await fetch("/api/powerpost/scrap-post", {
@@ -97,11 +111,17 @@ const PostForm = (props: PostFormProps) => {
       finishLoading(StageName.PublishingPost);
 
       const json = await result.json();
+      if (!result.ok) {
+        throw new Error(json.error);
+      }
 
       return json;
     },
     onSuccess: (powerpost) => {
       router.push(`/dashboard/posts/${powerpost.id}`);
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 
@@ -113,6 +133,22 @@ const PostForm = (props: PostFormProps) => {
     },
     resolver: zodResolver(PostSchema),
   });
+
+  if (user.credits <= 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Not enough credits</CardTitle>
+          <CardDescription>
+            You need to have at least one credit to create a PowerPost
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Link href="/dashboard/credits">Buy credits</Link>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <>

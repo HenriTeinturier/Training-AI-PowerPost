@@ -38,6 +38,11 @@ export const POST = async (req: Request) => {
       },
     });
 
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { credits: { decrement: 1 } },
+    });
+
     return NextResponse.json(finalPost);
   } catch (e) {
     if (e instanceof Error) {
