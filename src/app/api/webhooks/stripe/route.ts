@@ -13,7 +13,9 @@ export const POST = async (req: NextRequest) => {
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
-      process.env.STRIPE_WEBHOOK_SECRET || ""
+      process.env.MODE_ENV === "development"
+        ? process.env.STRIPE_WEBHOOK_SECRET_DEV || ""
+        : process.env.STRIPE_WEBHOOK_SECRET_PROD || ""
     );
   } catch (err) {
     return NextResponse.json(
