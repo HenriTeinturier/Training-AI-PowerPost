@@ -1,5 +1,5 @@
 "use client";
-import { ThemeMapping, useProseConfig } from "@/app/hook/Posts/useProseConfig";
+import { useProseConfig } from "@/app/hook/Posts/useProseConfig";
 import {
   Accordion,
   AccordionContent,

@@ -243,10 +243,9 @@ export default function Home() {
                 Main Points
               </h3>
               <p className="text-gray-500 dark:text-gray-400">
-                This feature extracts and presents the main points of the
-                article in a straightforward, easy-to-understand list. It's
-                useful for readers who want a clear outline of the article
-                without extra details.
+                {
+                  " This feature extracts and presents the main points of the article in a straightforward, easy-to-understand list. It's useful for readers who want a clear outline of the article without extra details."
+                }
               </p>
             </div>
             <div>
