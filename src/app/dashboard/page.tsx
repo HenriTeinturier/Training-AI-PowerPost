@@ -22,6 +22,8 @@ import { Suspense } from "react";
 export interface SearchParams {
   success?: string;
   canceled?: string;
+  premium?: string;
+  pack?: string;
   [key: string]: string | string[] | undefined;
 }
 
@@ -58,7 +60,13 @@ export default async function Dashboard({
             <CardHeader>
               <CardTitle>You got your credits ✅</CardTitle>
               <CardDescription>
-                Your account is now credited with 40 PowerPost.
+                {`Your account is now credited with ${
+                  searchParams?.premium === "true"
+                    ? "40"
+                    : searchParams?.pack === "true"
+                    ? "15"
+                    : "0"
+                } PowerPost.`}
               </CardDescription>
             </CardHeader>
           </Card>

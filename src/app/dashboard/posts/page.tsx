@@ -49,8 +49,10 @@ const Posts = async () => {
        ajouter une landing page
         ajouter de la couleur (primary couleur)
          transformer/modifier? un  post dans un autre type de post 
+         recréer le logo
          pour le pricing: ajouter juste un pay me a coffe avec la logique stripe.?
          login with google
+         ajouter des loader dans les server component: + Suspense
          Préciser que les paiements sont des fake: donner un exemple de fake card
           mise a jour de createdpost quand on  ajout un nouveau post */}
       </LayoutContent>
