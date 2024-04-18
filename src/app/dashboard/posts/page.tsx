@@ -38,16 +38,17 @@ const Posts = async () => {
           </CardContent>
         </Card>
         {/* //TODO: 
-        afficher le type de post (short, ...) dans le dashboard lien vers  dahsboard a coté des tags: createdpost et newpost 
-        desabonnement stripe
+        afficher le type de post (via des tags?) (short, ...) dans le dashboard lien vers  dahsboard a coté des tags: createdpost et newpost 
+        
         redirection  "/" si pas connecté mais page buy plans disponible
         redirection  "/" si pas connecté
        afficher les 3 derniers, 
+       visuels dans le dashboard
        voir ce que melvyn a fait ajouter 
        suppression d'un post sur posts? et/ou dans detail view 
        ajouter une navbar ? 
-       ajouter une landing page
-        ajouter de la couleur (primary couleur)
+       Ajuster landing page pricing et éviter double avec dashboard pricing
+    
          transformer/modifier? un  post dans un autre type de post 
          recréer le logo
          pour le pricing: ajouter juste un pay me a coffe avec la logique stripe.?

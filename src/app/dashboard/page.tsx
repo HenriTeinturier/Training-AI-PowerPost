@@ -8,7 +8,6 @@ import {
 } from "@/components/features/layout/Layout";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -21,6 +20,7 @@ import { Suspense } from "react";
 
 export interface SearchParams {
   success?: string;
+  unsubscribed?: string;
   canceled?: string;
   premium?: string;
   pack?: string;
@@ -55,6 +55,18 @@ export default async function Dashboard({
             </CardHeader>
           </Card>
         </div>
+        {searchParams?.unsubscribed ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                📌 You have been successfully unsubscribed 📌
+              </CardTitle>
+              <CardDescription>
+                {`You can continue tu use your PowerPosts.`}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        ) : null}
         {searchParams?.success ? (
           <Card>
             <CardHeader>
