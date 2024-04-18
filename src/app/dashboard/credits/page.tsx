@@ -26,43 +26,6 @@ const PricingSection = ({ searchParams }: PricingSectionProps) => {
           </p>
         </div>
         <div className="flex max-lg:flex-col gap-10">
-          {/* <!-- Pricing Card FREE --> */}
-          <div className="flex flex-col p-6 mx-auto max-w-md w-full text-center bg-card rounded-lg border border-bg-card shadow  xl:p-8 ">
-            <h3 className="mb-4 text-2xl font-semibold">Free</h3>
-            <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-              5 tokens to start with, no credit card required.
-            </p>
-            <div className="flex justify-center items-baseline my-8">
-              <span className="mr-2 text-5xl font-extrabold">$0</span>
-            </div>
-            {/* <!-- List --> */}
-            <ul role="list" className="mb-8 space-y-4 text-left">
-              <li className="flex items-center space-x-3">
-                <Check className="text-green-500" size={16} />
-
-                <span>Get 5 tokens for free</span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Check className="text-green-500" size={16} />
-
-                <span>openai GPT 3.5</span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <Check className="text-green-500" size={16} />
-
-                <span>AI Chat for every post</span>
-              </li>
-            </ul>
-            <Button
-              formAction={async () => {
-                "use server";
-                redirect("/api/auth/signin");
-              }}
-              className={buttonVariants({ variant: "default" })}
-            >
-              Get started
-            </Button>
-          </div>
           {/* <!-- Pricing Card PACK --> */}
           <div className="flex flex-col p-6 mx-auto max-w-md w-full text-center bg-card rounded-lg border border-bg-card shadow  xl:p-8 t">
             <h3 className="mb-4 text-2xl font-semibold">Pack</h3>
