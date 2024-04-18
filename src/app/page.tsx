@@ -9,10 +9,17 @@ import {
   Star,
   Twitter,
 } from "lucide-react";
-import Image from "next/image";
-import powerpostCreateImage from "../../public/assets/images/powerpostCreateComp.jpg";
+import { auth } from "@/auth/helper";
+import { redirect } from "next/navigation";
+import { CreatePostImg } from "./CreatePostImg";
 
-export default function Home() {
+export default async function Home() {
+  const user = await auth();
+
+  if (user) {
+    redirect("/dashboard");
+  }
+
   return (
     <main className="">
       <section className="bg-background mb-8">
@@ -130,17 +137,8 @@ export default function Home() {
       <section className="bg-background">
         <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
           <div className="w-full rounded-xl border border-primary">
-            <Image
-              src={powerpostCreateImage}
-              alt="Create PowerPost image"
-              className="rounded-xl"
-            />
+            <CreatePostImg />
           </div>
-          {/* <img
-            className="w-full hidden dark:block"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/cta/cta-dashboard-mockup-dark.svg"
-            alt="dashboard image"
-          /> */}
           <div className="mt-4 md:mt-0">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-foreground">
               Built for those who frequently read articles on the internet.

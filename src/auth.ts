@@ -12,7 +12,11 @@ export const {
   auth: baseAuth,
 } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  providers: [GitHub, Google],
+
+  providers: [
+    GitHub({ allowDangerousEmailAccountLinking: true }),
+    Google({ allowDangerousEmailAccountLinking: true }),
+  ],
   secret: process.env.AUTH_SECRET,
   events: {
     createUser: async (message) => {
