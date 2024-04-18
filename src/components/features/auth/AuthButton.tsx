@@ -1,8 +1,8 @@
-import { LoginButton } from "./LoginButton";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { auth } from "@/auth/helper";
 import { UserDropdown } from "./UserDropdown";
+import { LoginDropdown } from "./loginDropdown";
 
 export const AuthButton = async () => {
   const user = await auth();
@@ -27,5 +27,11 @@ export const AuthButton = async () => {
     );
   }
 
-  return <LoginButton />;
+  return (
+    <LoginDropdown>
+      <Button variant="outline" size="sm">
+        Login
+      </Button>
+    </LoginDropdown>
+  );
 };

@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 import { prisma } from "@/prisma";
 import { stripe } from "./stripe";
 
@@ -11,7 +12,7 @@ export const {
   auth: baseAuth,
 } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  providers: [GitHub],
+  providers: [GitHub, Google],
   secret: process.env.AUTH_SECRET,
   events: {
     createUser: async (message) => {
