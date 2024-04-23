@@ -62,7 +62,10 @@ export default async function Home() {
               Learn more
               <ArrowRight size={16} />
             </a>
-            <a href="#" className={buttonVariants({ size: "lg" })}>
+            <a
+              href="#"
+              className={buttonVariants({ variant: "default", size: "lg" })}
+            >
               <CircleUserRound size={16} />
               Signin
             </a>

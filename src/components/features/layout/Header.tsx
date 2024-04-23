@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AuthButton } from "../auth/AuthButton";
 import { ThemeToggle } from "./ThemeToggle";
+import CreateLogo from "./CreateLogo";
 
 export const Header = () => {
   return (
@@ -8,8 +9,8 @@ export const Header = () => {
       <div className="flex w-full max-w-screen-xl justify-between ">
         <div className="mt-0 w-full flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
           <div className="flex items-center gap-2 m-2 ">
-            <Link href="/" className="text-xl font-bold">
-              PowerPost
+            <Link href="/">
+              <CreateLogo />
             </Link>
           </div>
 

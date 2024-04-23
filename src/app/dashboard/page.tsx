@@ -8,6 +8,7 @@ import {
 } from "@/components/features/layout/Layout";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -17,6 +18,7 @@ import { Post } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { PowerPostCard } from "./posts/PowerPostCard";
 import { Suspense } from "react";
+import { stripe } from "@/stripe";
 
 export interface SearchParams {
   success?: string;
@@ -34,9 +36,16 @@ export default async function Dashboard({
 }) {
   const user = await requiredAuth();
 
-  if (!user) {
+  if (!user || !user?.stripeCustomerId) {
     redirect("/api/auth/signin");
   }
+
+  const subscription = await stripe.subscriptions.list({
+    customer: user.stripeCustomerId,
+    status: "active",
+  });
+
+  const isPremiumMember = subscription.data.length > 0;
 
   return (
     <Layout>
@@ -50,9 +59,12 @@ export default async function Dashboard({
             <CardHeader>
               <CardTitle>Welcome {user?.name}</CardTitle>
               <CardDescription>
-                You can create {user?.credits} PowerPost
+                {isPremiumMember
+                  ? "Premium Member - 40 posts added per month"
+                  : "Free Member - Limited posting privileges"}
               </CardDescription>
             </CardHeader>
+            <CardContent>You can create {user?.credits} PowerPost</CardContent>
           </Card>
         </div>
         {searchParams?.unsubscribed ? (

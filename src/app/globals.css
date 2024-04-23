@@ -35,10 +35,12 @@
     --radius: 0.5rem;
     /* same colors as dark mode */
     --primary: 75 67% 49%;
+    --primary: 186 65% 42%;
     --primary-foreground: 75 67% 9%;
+    /* --primary-foreground: 186, 65%, 95%; */
   }
 
-  .dark {
+  /* .dark {
     --background: 215 15% 16%;
     --foreground: 210 19% 73%;
     --muted: 215 12% 20%;
@@ -58,7 +60,7 @@
     --destructive: 6 85% 50%;
     --destructive-foreground: 0 0% 100%;
     --ring: 210 19% 73%;
-  }
+  } */
 
   .dark {
     --background: 132 20% 5%;
@@ -72,7 +74,9 @@
     --border: 132 10% 10%;
     --input: 132 10% 13%;
     --primary: 75 67% 49%;
+    --primary: 186 65% 42%;
     --primary-foreground: 75 67% 9%;
+    /* --primary-foreground: 186, 65%, 95%; */
     --secondary: 75 30% 25%;
     --secondary-foreground: 75 30% 85%;
     --accent: 132 20% 20%;

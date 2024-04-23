@@ -11,6 +11,7 @@ import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { managePlanAction } from "./manage-plan.action";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export const UserDropdown = ({ children }: PropsWithChildren) => {
   return (
@@ -28,7 +29,7 @@ export const UserDropdown = ({ children }: PropsWithChildren) => {
             action={async () => {
               "use server";
               const url = await managePlanAction();
-              console.log("url from manageplan", url);
+              revalidatePath("/dashboard");
               redirect(url);
             }}
           >

@@ -4,6 +4,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { getServerUrl } from "@/getServerUrl";
 import { stripe } from "@/stripe";
 import { Check } from "lucide-react";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 interface PricingSectionProps {
@@ -170,6 +171,8 @@ const PricingSection = ({ searchParams }: PricingSectionProps) => {
                   if (!stripeSession.url) {
                     throw new Error("No stripe session");
                   }
+
+                  revalidatePath("/dashboard");
                   redirect(stripeSession.url);
                 }}
                 className={buttonVariants({ variant: "default" })}
