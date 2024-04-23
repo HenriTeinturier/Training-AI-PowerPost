@@ -54,18 +54,31 @@ export default async function Dashboard({
         <LayoutDescription>Find your latest PowerPost</LayoutDescription>
       </LayoutHeader>
       <LayoutContent className="flex flex-col gap-4">
-        <div className="flex gap-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Welcome {user?.name}</CardTitle>
-              <CardDescription>
-                {isPremiumMember
-                  ? "Premium Member - 40 posts added per month"
-                  : "Free Member - Limited posting privileges"}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>You can create {user?.credits} PowerPost</CardContent>
-          </Card>
+        <div className="flex  flex-wrap gap-4">
+          <div className=" flex-1">
+            <Card>
+              <CardHeader>
+                <CardTitle>Welcome {user?.name}</CardTitle>
+                <CardDescription>
+                  {isPremiumMember
+                    ? "Premium Member - 40 posts added per month"
+                    : "Free Member - Limited posting privileges"}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                You can create {user?.credits} PowerPost
+              </CardContent>
+            </Card>
+          </div>
+          <div className=" flex-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Powerpost</CardTitle>
+                <CardDescription>{"statistiques"}</CardDescription>
+              </CardHeader>
+              <CardContent>30 powerpost</CardContent>
+            </Card>
+          </div>
         </div>
         {searchParams?.unsubscribed ? (
           <Card>
