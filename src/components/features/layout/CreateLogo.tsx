@@ -5,7 +5,10 @@ import powerpostLogoSvg from "../../../../public/assets/logos/powerpost-logo.svg
 import powerpostLogoSvgDark from "../../../../public/assets/logos/powerpost-logo-dark.svg";
 
 const CreateLogo = () => {
-  const defaultTheme = localStorage.getItem("theme") || "light";
+  const defaultTheme =
+    typeof window !== "undefined"
+      ? localStorage.getItem("theme") || "light"
+      : "light";
   const { setTheme, theme } = useTheme();
 
   const LogoToDisplay = (): string => {

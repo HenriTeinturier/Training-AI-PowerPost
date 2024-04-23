@@ -19,6 +19,9 @@ import { redirect } from "next/navigation";
 import { PowerPostCard } from "./posts/PowerPostCard";
 import { Suspense } from "react";
 import { stripe } from "@/stripe";
+import { BellRing } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { ResumePostGraph } from "./resumePostGraph";
 
 export interface SearchParams {
   success?: string;
@@ -54,8 +57,8 @@ export default async function Dashboard({
         <LayoutDescription>Find your latest PowerPost</LayoutDescription>
       </LayoutHeader>
       <LayoutContent className="flex flex-col gap-4">
-        <div className="flex  flex-wrap gap-4">
-          <div className=" flex-1">
+        <div className="flex  flex-row flex-wrap md:flex-nowrap   gap-4">
+          <div className="w-full md:w-1/3 md:grow ">
             <Card>
               <CardHeader>
                 <CardTitle>Welcome {user?.name}</CardTitle>
@@ -70,13 +73,49 @@ export default async function Dashboard({
               </CardContent>
             </Card>
           </div>
-          <div className=" flex-2">
+          <div className="w-full md:w-2/3 md:grow ">
             <Card>
               <CardHeader>
                 <CardTitle>Powerpost</CardTitle>
                 <CardDescription>{"statistiques"}</CardDescription>
               </CardHeader>
-              <CardContent>30 powerpost</CardContent>
+              <CardContent>
+                <div className=" flex items-center space-x-4 my-6">
+                  <BellRing />
+                  <div className="flex-1 space-y-1">
+                    <p className="text-sm font-medium leading-none">
+                      Total Powerposts
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      25 Powerpost created
+                    </p>
+                  </div>
+                </div>
+                <Separator className="my-4" />
+                <div className=" flex items-center space-x-4 my-6">
+                  <BellRing />
+                  <div className="flex-1 space-y-1">
+                    <p className="text-sm font-medium leading-none">
+                      3 lastest Powerposts
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Choisir un gps
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      A quoi sert Nextjs
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Comment faire de leeau froide
+                    </p>
+                  </div>
+                </div>
+                <Separator className="my-4" />
+                <div className=" flex items-center space-x-4 my-6">
+                  <div className="flex-1 space-y-1">
+                    <ResumePostGraph />
+                  </div>
+                </div>
+              </CardContent>
             </Card>
           </div>
         </div>
