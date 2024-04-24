@@ -8,7 +8,10 @@ import {
 } from "@/components/features/layout/Layout";
 import { prisma } from "@/prisma";
 import { redirect } from "next/navigation";
-import { PowerPostCard } from "./PowerPostCard";
+import { getPosts } from "@/data/datasFunction";
+import PowerPostCard, { PowerPostCardsSkeleton } from "./PowerPostCard";
+import { Suspense } from "react";
+import { Loader } from "@/components/ui/loader";
 
 const Posts = async () => {
   const user = await requiredAuth();
@@ -16,14 +19,7 @@ const Posts = async () => {
     redirect("/api/auth/signin");
   }
 
-  const posts = await prisma.post.findMany({
-    where: {
-      userId: user.id,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  const posts = await getPosts();
 
   return (
     <Layout>
@@ -33,32 +29,44 @@ const Posts = async () => {
       </LayoutHeader>
       <LayoutContent>
         <div className="flex flex-wrap gap-4 justify-center">
-          {posts.map((post, index) => (
-            <PowerPostCard key={post.id + index} post={post} />
-          ))}
+          {/* {Array.from({ length: 8 }).map((_, index) => (
+            <PowerPostCardsSkeleton key={index} />
+          ))} */}
+
+          <Suspense
+            fallback={Array.from({ length: 8 }).map((_, index) => (
+              <PowerPostCardsSkeleton key={index} />
+            ))}
+          >
+            {posts.map((post, index) => (
+              <PowerPostCard key={post.id + index} post={post} />
+            ))}
+          </Suspense>
         </div>
-        {/* //TODO: 
-        ajouter une vue table dans les powerposts avec pagination
-        ajouter un lien vers manage plan dans credits + changer affichage si user est premium: ne pas proposer l'option Premium mais proposer un manage plan à la palce
-        afficher le type de post (via des tags?) (short, ...) dans le dashboard lien vers  dahsboard a coté des tags: createdpost et newpost 
-        ajouter dans la landing page traduction
-        redirection  "/" si pas connecté mais page buy plans disponible
-        redirection  "/" si pas connecté
-       afficher les 3 derniers, 
-       visuels dans le dashboard
-       voir ce que melvyn a fait ajouter 
-       suppression d'un post sur posts? et/ou dans detail view 
-       ajouter une navbar ? 
-       Ajuster landing page pricing et éviter double avec dashboard pricing
-          Ajouter un back to post/id to dashboard/posts 
-          + tenter de keep le scroll position? et les filtres
-         transformer/modifier? un  post dans un autre type de post 
-         recréer le logo
-         pour le pricing: ajouter juste un pay me a coffe avec la logique stripe.?
-         login with google
-         ajouter des loader dans les server component: + Suspense
-         Préciser que les paiements sont des fake: donner un exemple de fake card
-          mise a jour de createdpost quand on  ajout un nouveau post */}
+        {/* //TODO:
+    //     ajouuter des loaders sur toutes les pages
+    //     ajouter une vue table dans les powerposts avec pagination
+    //     ajouter un lien vers manage plan dans credits + changer affichage si user est premium: ne pas proposer l'option Premium mais proposer un manage plan à la palce
+    //     afficher le type de post (via des tags?) (short, ...) dans le dashboard lien vers  dahsboard a coté des tags: createdpost et newpost
+    //     ajouter dans la landing page traduction
+    //     redirection  "/" si pas connecté mais page buy plans disponible
+    //     redirection  "/" si pas connecté
+    //    afficher les 3 derniers,
+    //    visuels dans le dashboard
+    //    voir ce que melvyn a fait ajouter
+    //    suppression d'un post sur posts? et/ou dans detail view
+    //    ajouter une navbar ?
+    // ajouter un footer
+    //    Ajuster landing page pricing et éviter double avec dashboard pricing
+    //       Ajouter un back to post/id to dashboard/posts
+    //       + tenter de keep le scroll position? et les filtres
+    //      transformer/modifier? un  post dans un autre type de post
+    //      recréer le logo
+    //      pour le pricing: ajouter juste un pay me a coffe avec la logique stripe.?
+    //      login with google
+    //      ajouter des loader dans les server component: + Suspense
+    //      Préciser que les paiements sont des fake: donner un exemple de fake card
+    //       mise a jour de createdpost quand on  ajout un nouveau post */}
       </LayoutContent>
     </Layout>
   );

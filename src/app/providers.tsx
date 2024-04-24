@@ -12,7 +12,7 @@ export const Providers = (props: PropsWithChildren) => {
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <QueryClientProvider client={queryClient}>
         <Toaster />
-        <div>{props.children}</div>
+        {props.children}
       </QueryClientProvider>
     </ThemeProvider>
   );
