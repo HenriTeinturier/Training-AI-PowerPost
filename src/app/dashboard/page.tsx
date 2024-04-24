@@ -71,6 +71,42 @@ export default async function Dashboard({
         <LayoutDescription>Find your latest PowerPost</LayoutDescription>
       </LayoutHeader>
       <LayoutContent className="flex flex-col gap-4">
+        {searchParams?.unsubscribed ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                📌 You have been successfully unsubscribed 📌
+              </CardTitle>
+              <CardDescription>
+                {`You can continue tu use your PowerPosts.`}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        ) : null}
+        {searchParams?.success ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>You got your credits ✅</CardTitle>
+              <CardDescription>
+                {`Your account is now credited with ${
+                  searchParams?.premium === "true"
+                    ? "40"
+                    : searchParams?.pack === "true"
+                    ? "15"
+                    : "0"
+                } PowerPost.`}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        ) : null}
+        {searchParams?.canceled ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>Sorry, error during your payment ❌</CardTitle>
+              <CardDescription>Please retry.</CardDescription>
+            </CardHeader>
+          </Card>
+        ) : null}
         <div className="flex  flex-row flex-wrap md:flex-nowrap   gap-4 ">
           {/* LeftCards */}
           <div className="test w-full md:w-1/2 md:grow md:h-full ">
@@ -133,47 +169,12 @@ export default async function Dashboard({
             </Card>
           </div>
         </div>
-        <div>
+        {/* TODO: reactivate before production */}
+        {/* <div>
           <Suspense fallback={<Loader className="text-primary" />}>
             <NewsPropal />
           </Suspense>
-        </div>
-        {searchParams?.unsubscribed ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                📌 You have been successfully unsubscribed 📌
-              </CardTitle>
-              <CardDescription>
-                {`You can continue tu use your PowerPosts.`}
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        ) : null}
-        {searchParams?.success ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>You got your credits ✅</CardTitle>
-              <CardDescription>
-                {`Your account is now credited with ${
-                  searchParams?.premium === "true"
-                    ? "40"
-                    : searchParams?.pack === "true"
-                    ? "15"
-                    : "0"
-                } PowerPost.`}
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        ) : null}
-        {searchParams?.canceled ? (
-          <Card>
-            <CardHeader>
-              <CardTitle>Sorry, error during your payment ❌</CardTitle>
-              <CardDescription>Please retry.</CardDescription>
-            </CardHeader>
-          </Card>
-        ) : null}
+        </div> */}
       </LayoutContent>
     </Layout>
   );
@@ -185,19 +186,26 @@ const Last3PowerPostTest = async ({
   Last3PowerPost: Post[];
 }) => {
   return (
-    <Table>
-      <TableBody>
-        {Last3PowerPost.map((post, index) => {
-          return (
-            <TableRow key={post.id} className="hover:cursor-pointer">
-              <Link href={`/dashboard/posts/${post.id}`}>
-                <TableCell>{post.title}</TableCell>
-              </Link>
-            </TableRow>
-          );
-          // <PowerPostCard key={post.id + index} post={post} />;
-        })}
-      </TableBody>
-    </Table>
+    <div>
+      <Table>
+        <TableBody>
+          {Last3PowerPost.map((post, index) => {
+            return (
+              <TableRow key={post.id + index} className="hover:cursor-pointer">
+                <TableCell>
+                  <Link
+                    key={post.id + post.title}
+                    href={`/dashboard/posts/${post.id}`}
+                  >
+                    {post.title}
+                  </Link>
+                </TableCell>
+              </TableRow>
+            );
+            // <PowerPostCard key={post.id + index} post={post} />;
+          })}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
