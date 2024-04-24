@@ -90,6 +90,8 @@ const PricingSection = ({ searchParams }: PricingSectionProps) => {
                   if (!stripeSession.url) {
                     throw new Error("No stripe session");
                   }
+                  revalidatePath("/dashboard");
+                  revalidatePath("/dashboard/posts");
                   redirect(stripeSession.url);
                 }}
                 className={buttonVariants({ variant: "default" })}

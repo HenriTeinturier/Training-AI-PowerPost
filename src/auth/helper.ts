@@ -1,4 +1,3 @@
-// src/lib/auth-helper.ts
 import type { User } from "@prisma/client";
 import { AuthError } from "next-auth";
 import { baseAuth } from "@/auth";

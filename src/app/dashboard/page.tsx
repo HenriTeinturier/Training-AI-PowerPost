@@ -22,6 +22,10 @@ import { stripe } from "@/stripe";
 import { BellRing } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ResumePostGraph } from "./resumePostGraph";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import NewsPropal from "./posts/newsPropal";
+import { Loader } from "@/components/ui/loader";
+import Link from "next/link";
 
 export interface SearchParams {
   success?: string;
@@ -48,6 +52,16 @@ export default async function Dashboard({
     status: "active",
   });
 
+  const Last3PowerPost: Post[] = await prisma.post.findMany({
+    where: {
+      userId: user?.id,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 3,
+  });
+
   const isPremiumMember = subscription.data.length > 0;
 
   return (
@@ -57,30 +71,47 @@ export default async function Dashboard({
         <LayoutDescription>Find your latest PowerPost</LayoutDescription>
       </LayoutHeader>
       <LayoutContent className="flex flex-col gap-4">
-        <div className="flex  flex-row flex-wrap md:flex-nowrap   gap-4">
-          <div className="w-full md:w-1/3 md:grow ">
-            <Card>
-              <CardHeader>
-                <CardTitle>Welcome {user?.name}</CardTitle>
-                <CardDescription>
-                  {isPremiumMember
-                    ? "Premium Member - 40 posts added per month"
-                    : "Free Member - Limited posting privileges"}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                You can create {user?.credits} PowerPost
-              </CardContent>
-            </Card>
+        <div className="flex  flex-row flex-wrap md:flex-nowrap   gap-4 ">
+          {/* LeftCards */}
+          <div className="test w-full md:w-1/2 md:grow md:h-full ">
+            <div className="flex flex-col md:h-fullh-full gap-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Welcome {user?.name}</CardTitle>
+                  <CardDescription>
+                    {isPremiumMember
+                      ? "Premium Member - 40 posts added per month"
+                      : "Free Member - Limited posting privileges"}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  You have{" "}
+                  <span className="text-primary bold">
+                    {user?.credits} credits
+                  </span>{" "}
+                  left
+                </CardContent>
+              </Card>
+              <Card className="md:h-full">
+                <CardHeader>
+                  <CardTitle>Powerpost</CardTitle>
+                  <CardDescription>{"Three latest Powerposts"}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Last3PowerPostTest Last3PowerPost={Last3PowerPost} />
+                </CardContent>
+              </Card>
+            </div>
           </div>
-          <div className="w-full md:w-2/3 md:grow ">
-            <Card>
+          {/* right Cards */}
+          <div className="test w-full md:h-full md:w-1/2 md:grow ">
+            <Card className="md:h-full">
               <CardHeader>
-                <CardTitle>Powerpost</CardTitle>
-                <CardDescription>{"statistiques"}</CardDescription>
+                <CardTitle>Statistics</CardTitle>
+                {/* <CardDescription>{"statistics"}</CardDescription> */}
               </CardHeader>
               <CardContent>
-                <div className=" flex items-center space-x-4 my-6">
+                <div className=" flex items-center space-x-4 mb-6">
                   <BellRing />
                   <div className="flex-1 space-y-1">
                     <p className="text-sm font-medium leading-none">
@@ -91,24 +122,7 @@ export default async function Dashboard({
                     </p>
                   </div>
                 </div>
-                <Separator className="my-4" />
-                <div className=" flex items-center space-x-4 my-6">
-                  <BellRing />
-                  <div className="flex-1 space-y-1">
-                    <p className="text-sm font-medium leading-none">
-                      3 lastest Powerposts
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Choisir un gps
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      A quoi sert Nextjs
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Comment faire de leeau froide
-                    </p>
-                  </div>
-                </div>
+
                 <Separator className="my-4" />
                 <div className=" flex items-center space-x-4 my-6">
                   <div className="flex-1 space-y-1">
@@ -118,6 +132,11 @@ export default async function Dashboard({
               </CardContent>
             </Card>
           </div>
+        </div>
+        <div>
+          <Suspense fallback={<Loader className="text-primary" />}>
+            <NewsPropal />
+          </Suspense>
         </div>
         {searchParams?.unsubscribed ? (
           <Card>
@@ -155,37 +174,30 @@ export default async function Dashboard({
             </CardHeader>
           </Card>
         ) : null}
-        <Card>
-          <CardHeader>
-            <CardTitle>3 latests PowerPost</CardTitle>
-          </CardHeader>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Last3PowerPost />
-          </Suspense>
-        </Card>
       </LayoutContent>
     </Layout>
   );
 }
 
-const Last3PowerPost = async () => {
-  const user = await requiredAuth();
-
-  const Last3PowerPost: Post[] = (await prisma.post.findMany({
-    where: {
-      userId: user?.id,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    take: 3,
-  })) as Post[];
-
+const Last3PowerPostTest = async ({
+  Last3PowerPost,
+}: {
+  Last3PowerPost: Post[];
+}) => {
   return (
-    <div className="flex flex-col gap-4 p-4">
-      {Last3PowerPost.map((post, index) => {
-        return <PowerPostCard key={post.id + index} post={post} />;
-      })}
-    </div>
+    <Table>
+      <TableBody>
+        {Last3PowerPost.map((post, index) => {
+          return (
+            <TableRow key={post.id} className="hover:cursor-pointer">
+              <Link href={`/dashboard/posts/${post.id}`}>
+                <TableCell>{post.title}</TableCell>
+              </Link>
+            </TableRow>
+          );
+          // <PowerPostCard key={post.id + index} post={post} />;
+        })}
+      </TableBody>
+    </Table>
   );
 };

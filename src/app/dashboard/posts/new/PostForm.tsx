@@ -108,6 +108,7 @@ const PostForm = (props: PostFormProps) => {
           coverUrl,
         }),
       });
+
       finishLoading(StageName.PublishingPost);
 
       const json = await result.json();

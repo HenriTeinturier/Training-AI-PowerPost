@@ -5,7 +5,6 @@ import { CircleCheckBig, CircleDashed, LoaderCircle } from "lucide-react";
 
 export const PostFormLoader = () => {
   const { stages, stageInProgress } = usePostCreationStatus();
-  console.log("stages", stages);
 
   return (
     <Card>
