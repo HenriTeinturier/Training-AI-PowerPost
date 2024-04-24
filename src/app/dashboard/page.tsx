@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { prisma } from "@/prisma";
-import { Post } from "@prisma/client";
+import { Post, PostMode } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { PowerPostCard } from "./posts/PowerPostCard";
 import { Suspense } from "react";
@@ -62,21 +62,40 @@ export default async function Dashboard({
     take: 3,
   });
 
+  const totalPost = await prisma.post.count();
+
   const isPremiumMember = subscription.data.length > 0;
 
-  async function countPostsByMode() {
-    const modeCounts = await prisma.post.groupBy({
+  async function countPostsByModeIncludingZeros() {
+    // Initialisation d'un objet pour compter les modes avec des valeurs initiales à 0
+    const modeCounts: Record<PostMode, number> = Object.values(PostMode).reduce(
+      (acc, mode) => {
+        acc[mode] = 0;
+        return acc;
+      },
+      {} as Record<PostMode, number>
+    );
+
+    // Requête pour obtenir les comptes actuels depuis la base de données
+    const result = await prisma.post.groupBy({
       by: ["mode"],
       _count: {
         mode: true,
       },
     });
 
-    console.log("modeCounts", modeCounts);
+    // Mise à jour des comptes avec les données de la base de données
+    result.forEach((item) => {
+      if (item.mode in modeCounts) {
+        modeCounts[item.mode] = item._count.mode;
+      }
+    });
+
+    console.log(modeCounts);
     return modeCounts;
   }
 
-  const test = await countPostsByMode()
+  const totalPowerpostByMode = await countPostsByModeIncludingZeros()
     .catch((e) => {
       throw e;
     })
@@ -84,7 +103,7 @@ export default async function Dashboard({
       await prisma.$disconnect();
     });
 
-  console.log("test", test);
+  console.log("totalPowerpostByMode", totalPowerpostByMode);
 
   return (
     <Layout>
@@ -176,7 +195,7 @@ export default async function Dashboard({
                       Total Powerposts
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      25 Powerpost created
+                      {`${totalPost} Powerpost created`}
                     </p>
                   </div>
                 </div>
@@ -184,7 +203,9 @@ export default async function Dashboard({
                 <Separator className="my-4" />
                 <div className=" flex items-center space-x-4 my-6">
                   <div className="flex-1 space-y-1">
-                    <ResumePostGraph />
+                    <ResumePostGraph
+                      totalPowerpostByMode={totalPowerpostByMode}
+                    />
                   </div>
                 </div>
               </CardContent>

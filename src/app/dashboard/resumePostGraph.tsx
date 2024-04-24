@@ -1,6 +1,5 @@
 "use client";
 
-import { linechartData } from "@/data/fakeData";
 import { Bar } from "react-chartjs-2";
 
 import {
@@ -13,6 +12,7 @@ import {
   Legend,
   ChartOptions,
 } from "chart.js";
+import { PostMode } from "@prisma/client";
 
 ChartJS.register(
   CategoryScale,
@@ -23,7 +23,11 @@ ChartJS.register(
   Legend
 );
 
-export const ResumePostGraph = () => {
+export const ResumePostGraph = ({
+  totalPowerpostByMode,
+}: {
+  totalPowerpostByMode: Record<PostMode, number>;
+}) => {
   const options: ChartOptions<"bar"> = {
     scales: {
       x: {
@@ -52,6 +56,30 @@ export const ResumePostGraph = () => {
         usePointStyle: true,
       },
     },
+  };
+  const postModeKeys = Object.keys(PostMode).filter((key) =>
+    isNaN(Number(key))
+  );
+  const linechartData = {
+    labels: postModeKeys,
+    datasets: [
+      {
+        label: "Powerpost Type",
+        data: [
+          totalPowerpostByMode.SHORT,
+          totalPowerpostByMode.TWEET,
+          totalPowerpostByMode.THREAD,
+          totalPowerpostByMode.BULLET_POINT,
+          totalPowerpostByMode.TOP3,
+          totalPowerpostByMode.MAIN_POINTS,
+          totalPowerpostByMode.CODE,
+        ],
+        fill: false,
+        backgroundColor: ["hsl(186 65% 42%)"],
+        // borderColor: "red",
+        borderWidth: 0,
+      },
+    ],
   };
   return (
     <div className="flex flex-row  items-start justify-start ">
