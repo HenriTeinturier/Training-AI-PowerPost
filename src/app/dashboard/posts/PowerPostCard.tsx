@@ -3,6 +3,8 @@ import { MoveRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import placeholderImage from "@/../public/assets/images/placeholder.jpg";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export type PowerPostCardProps = {
   post: Post;
@@ -10,19 +12,46 @@ export type PowerPostCardProps = {
 
 //TODO add filter by tags, by created at
 
+export const PowerPostCardsSkeleton = () => {
+  return (
+    <div className="max-w-sm bg-card border border-border rounded-lg shadow flex flex-col justify-between">
+      <div>
+        <div className="rounded-t-lg overflow-hidden max-h-52 min-h-52 bg-cover">
+          <Skeleton className="h-[208px] w-[400px] rounded-xl" />
+        </div>
+        <div className="px-5 pt-5">
+          <h5 className="mb-2 text-xl font-bold tracking-tight text-foreground line-clamp-2">
+            <Skeleton className="h-4 w-[150px]" />
+          </h5>
+          <p className="mb-3 font-normal text-muted-foreground  ">
+            <Skeleton className="h-4 w-[250px]" />
+          </p>
+        </div>
+      </div>
+      <div className="pl-5 pb-5">
+        <Skeleton className="h-[50px] w-[100px] rounded-xl" />
+      </div>
+    </div>
+  );
+};
+
 export const PowerPostCard = ({ post }: PowerPostCardProps) => {
   const domain = new URL(post.source).hostname;
   return (
     <div className="max-w-sm bg-card border border-border rounded-lg shadow flex flex-col justify-between">
       <div>
         <div className="rounded-t-lg overflow-hidden max-h-52 min-h-52 bg-cover">
-          <Image
-            src={post.coverUrl || placeholderImage}
-            unoptimized={true}
-            height={208}
-            width={400}
-            alt="cover from source url"
-          />
+          <Suspense
+            fallback={<Skeleton className="h-[208px] w-[400px] rounded-xl" />}
+          >
+            <Image
+              src={post.coverUrl || placeholderImage}
+              unoptimized={true}
+              height={208}
+              width={400}
+              alt="cover from source url"
+            />
+          </Suspense>
         </div>
         <div className="px-5 pt-5">
           <h5 className="mb-2 text-xl font-bold tracking-tight text-foreground line-clamp-2">
@@ -43,3 +72,5 @@ export const PowerPostCard = ({ post }: PowerPostCardProps) => {
     </div>
   );
 };
+
+export default PowerPostCard;

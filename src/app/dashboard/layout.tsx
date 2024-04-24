@@ -5,9 +5,14 @@ export default function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const HEADER_HEIGHT = 64;
+
   return (
-    <div className="max-w-5xl m-auto px-4 h-full">
-      <nav className="flex items-center gap-4 mt-4">
+    <div
+      className="max-w-5xl m-auto px-4 flex flex-col flex-grow   "
+      style={{ height: `calc(100vh - ${HEADER_HEIGHT}px)` }}
+    >
+      <nav className="flex items-center gap-4">
         <Link
           href="/dashboard/"
           className="flex h-8 items-center gap-2 rounded-md px-2 transition-colors text-sm bg-accent/20 hover:bg-accent/50 "
@@ -33,7 +38,7 @@ export default function DashboardLayout({
           Credits
         </Link>
       </nav>
-      <div className="mt-8">{children}</div>
+      <div className="pt-8  h-full">{children}</div>
     </div>
   );
 }
