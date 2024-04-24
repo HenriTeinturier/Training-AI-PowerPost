@@ -18,19 +18,19 @@ export default function DashboardLayout({
           href="/dashboard/posts"
           className="flex h-8 items-center gap-2 rounded-md px-2 transition-colors text-sm bg-accent/20 hover:bg-accent/50 "
         >
-          Created Posts
+          Powerposts
         </Link>
         <Link
           href="/dashboard/posts/new"
           className="flex h-8 items-center gap-2 rounded-md px-2 transition-colors text-sm bg-accent/20 hover:bg-accent/50"
         >
-          New post
+          Create Powerpost
         </Link>
         <Link
           href="/dashboard/credits"
           className="flex h-8 items-center gap-2 rounded-md px-2 transition-colors text-sm bg-accent/20 hover:bg-accent/50"
         >
-          Buy credits plan
+          Credits
         </Link>
       </nav>
       <div className="mt-8">{children}</div>

@@ -6,15 +6,22 @@ import {
   LayoutHeader,
   LayoutTitle,
 } from "@/components/features/layout/Layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/prisma";
-import Link from "next/link";
+import { redirect } from "next/navigation";
+import { PowerPostCard } from "./PowerPostCard";
 
 const Posts = async () => {
   const user = await requiredAuth();
+  if (!user) {
+    redirect("/api/auth/signin");
+  }
+
   const posts = await prisma.post.findMany({
     where: {
       userId: user.id,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 
@@ -25,19 +32,14 @@ const Posts = async () => {
         <LayoutDescription>Find your latest created posts</LayoutDescription>
       </LayoutHeader>
       <LayoutContent>
-        <Card>
-          <CardHeader>
-            <CardTitle>Your posts</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {posts.map((post) => (
-              <li key={post.id}>
-                <Link href={`/dashboard/posts/${post.id}`}>{post.title}</Link>
-              </li>
-            ))}
-          </CardContent>
-        </Card>
+        <div className="flex flex-wrap gap-4 justify-center">
+          {posts.map((post, index) => (
+            <PowerPostCard key={post.id + index} post={post} />
+          ))}
+        </div>
         {/* //TODO: 
+        ajouter une vue table dans les powerposts avec pagination
+        ajouter un lien vers manage plan dans credits + changer affichage si user est premium: ne pas proposer l'option Premium mais proposer un manage plan à la palce
         afficher le type de post (via des tags?) (short, ...) dans le dashboard lien vers  dahsboard a coté des tags: createdpost et newpost 
         ajouter dans la landing page traduction
         redirection  "/" si pas connecté mais page buy plans disponible
@@ -48,7 +50,8 @@ const Posts = async () => {
        suppression d'un post sur posts? et/ou dans detail view 
        ajouter une navbar ? 
        Ajuster landing page pricing et éviter double avec dashboard pricing
-    
+          Ajouter un back to post/id to dashboard/posts 
+          + tenter de keep le scroll position? et les filtres
          transformer/modifier? un  post dans un autre type de post 
          recréer le logo
          pour le pricing: ajouter juste un pay me a coffe avec la logique stripe.?

@@ -16,7 +16,6 @@ import {
 import { prisma } from "@/prisma";
 import { Post, PostMode } from "@prisma/client";
 import { redirect } from "next/navigation";
-import { PowerPostCard } from "./posts/PowerPostCard";
 import { Suspense } from "react";
 import { stripe } from "@/stripe";
 import { BellRing } from "lucide-react";
@@ -245,7 +244,6 @@ const Last3PowerPostTest = async ({
                 </TableCell>
               </TableRow>
             );
-            // <PowerPostCard key={post.id + index} post={post} />;
           })}
         </TableBody>
       </Table>
