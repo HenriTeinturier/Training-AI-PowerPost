@@ -103,6 +103,7 @@ const PostForm = (props: PostFormProps) => {
         body: JSON.stringify({
           markdown,
           powerpost,
+          mode: values.mode,
           source: values.source,
           title,
           coverUrl,

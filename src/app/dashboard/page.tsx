@@ -64,6 +64,28 @@ export default async function Dashboard({
 
   const isPremiumMember = subscription.data.length > 0;
 
+  async function countPostsByMode() {
+    const modeCounts = await prisma.post.groupBy({
+      by: ["mode"],
+      _count: {
+        mode: true,
+      },
+    });
+
+    console.log("modeCounts", modeCounts);
+    return modeCounts;
+  }
+
+  const test = await countPostsByMode()
+    .catch((e) => {
+      throw e;
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+
+  console.log("test", test);
+
   return (
     <Layout>
       <LayoutHeader>

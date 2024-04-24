@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requiredAuth } from "@/auth/helper";
 import { prisma } from "@/prisma";
 import { revalidatePath } from "next/cache";
+import { PostSchema } from "@/app/dashboard/posts/new/post.schema";
 
 export const POST = async (req: Request) => {
   const user = await requiredAuth();
@@ -25,7 +26,7 @@ export const POST = async (req: Request) => {
   try {
     const body = await req.json();
     // const data = PostSchema.parse(body);
-    const { markdown, powerpost, source, coverUrl, title } = body;
+    const { markdown, powerpost, source, coverUrl, title, mode } = body;
 
     const finalPost = await prisma.post.create({
       data: {
@@ -33,6 +34,7 @@ export const POST = async (req: Request) => {
         content: markdown,
         powerPost: powerpost,
         source: source,
+        mode: mode,
         coverUrl,
         id: getId(title),
         userId: user.id,

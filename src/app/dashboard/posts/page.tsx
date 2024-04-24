@@ -39,7 +39,7 @@ const Posts = async () => {
         </Card>
         {/* //TODO: 
         afficher le type de post (via des tags?) (short, ...) dans le dashboard lien vers  dahsboard a coté des tags: createdpost et newpost 
-        
+        ajouter dans la landing page traduction
         redirection  "/" si pas connecté mais page buy plans disponible
         redirection  "/" si pas connecté
        afficher les 3 derniers, 
