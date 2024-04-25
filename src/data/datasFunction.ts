@@ -3,13 +3,9 @@ import { prisma } from "@/prisma";
 import { PostMode, Prisma } from "@prisma/client";
 import { z } from "zod";
 
-const ITEMS_PER_PAGE = 8;
+export const ITEMS_PER_PAGE = 8;
 
-const PostModeValues = Object.values(PostMode).filter(
-  (value) => typeof value === "string"
-);
-
-const PostModeSchema = z.enum(PostModeValues as [PostMode, ...PostMode[]]);
+const PostModeSchema = z.nativeEnum(PostMode);
 
 const PostsFilterSchema = z.object({
   search: z.string().optional(),
@@ -17,12 +13,12 @@ const PostsFilterSchema = z.object({
     .string()
     .transform((value) => parseInt(value, 10))
     .optional(),
-  modes: z
+  mode: z
     .string()
     .optional()
-    .transform((modes) =>
-      modes
-        ? modes.split(",").map((mode) => {
+    .transform((mode) =>
+      mode
+        ? mode.split(",").map((mode) => {
             return PostModeSchema.parse(mode);
           })
         : []
@@ -33,7 +29,7 @@ const PostsFilterSchema = z.object({
 export type PostsFilter = {
   search?: string;
   page?: string;
-  modes?: string;
+  mode?: string;
   sort?: string;
 };
 
@@ -46,7 +42,7 @@ export async function getPosts(postsFilter: PostsFilter) {
 
   try {
     const postsFilterValidated = PostsFilterSchema.parse(postsFilter);
-    const excludedModes: PostMode[] = postsFilterValidated.modes;
+    const selectedMode: PostMode[] = postsFilterValidated.mode;
     const sortOrder: "asc" | "desc" = postsFilterValidated.sort ?? "desc";
     const searchTerm: string = postsFilterValidated.search ?? "";
     const page = postsFilterValidated.page ?? 0;
@@ -54,9 +50,11 @@ export async function getPosts(postsFilter: PostsFilter) {
     const whereClause: Prisma.PostWhereInput = {
       userId: user.id,
     };
-    if (excludedModes.length > 0) {
+    console.log("postsFilterValidated", postsFilterValidated);
+
+    if (selectedMode.length > 0) {
       whereClause.mode = {
-        notIn: excludedModes,
+        in: selectedMode,
       };
     }
     if (searchTerm) {
@@ -65,6 +63,8 @@ export async function getPosts(postsFilter: PostsFilter) {
         mode: "insensitive",
       };
     }
+
+    console.log("whereClause", whereClause);
 
     const posts = await prisma.post.findMany({
       where: whereClause,
@@ -91,15 +91,15 @@ export async function getPostsPages(postsFilter: PostsFilter) {
 
   try {
     const postsFilterValidated = PostsFilterSchema.parse(postsFilter);
-    const excludedModes: PostMode[] = postsFilterValidated.modes;
+    const selectedMode: PostMode[] = postsFilterValidated.mode;
     const searchTerm: string = postsFilterValidated.search ?? "";
 
     const whereClause: Prisma.PostWhereInput = {
       userId: user.id,
     };
-    if (excludedModes.length > 0) {
+    if (selectedMode.length > 0) {
       whereClause.mode = {
-        notIn: excludedModes,
+        notIn: selectedMode,
       };
     }
     if (searchTerm) {

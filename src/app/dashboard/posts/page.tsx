@@ -7,14 +7,15 @@ import {
   LayoutTitle,
 } from "@/components/features/layout/Layout";
 import { redirect } from "next/navigation";
-import { PostsFilter, getPosts } from "@/data/datasFunction";
+import { PostsFilter, getPosts, getPostsPages } from "@/data/datasFunction";
 import PowerPostCard, { PowerPostCardsSkeleton } from "./PowerPostCard";
+import FilterPostsToggle from "./filterPostsToggle";
 import { Suspense } from "react";
 
 export type PostsSearchParams = {
   search?: string;
   page?: string;
-  modes?: string;
+  mode?: string;
   sort?: string;
 };
 
@@ -24,7 +25,7 @@ const Posts = async ({
   searchParams?: {
     search?: string;
     page?: string;
-    modes?: string;
+    mode?: string;
     sort?: string;
   };
 }) => {
@@ -36,10 +37,11 @@ const Posts = async ({
   const postsFilter: PostsFilter = {
     search: searchParams?.search,
     page: searchParams?.page,
-    modes: searchParams?.modes,
+    mode: searchParams?.mode,
     sort: searchParams?.sort,
   };
 
+  const totalPage = await getPostsPages(postsFilter);
   const posts = await getPosts(postsFilter);
 
   return (
@@ -49,16 +51,17 @@ const Posts = async ({
         <LayoutDescription>Find your latest created posts</LayoutDescription>
       </LayoutHeader>
       <LayoutContent>
+        <FilterPostsToggle />
         <div className="flex flex-wrap gap-4 justify-center">
-          {/* <Suspense
+          <Suspense
             fallback={Array.from({ length: 8 }).map((_, index) => (
               <PowerPostCardsSkeleton key={index} />
             ))}
-          > */}
-          {posts.map((post, index) => (
-            <PowerPostCard key={post.id + index} post={post} />
-          ))}
-          {/* </Suspense> */}
+          >
+            {posts.map((post, index) => (
+              <PowerPostCard key={post.id + index} post={post} />
+            ))}
+          </Suspense>
         </div>
         {/* //TODO:
     //     ajouuter des loaders sur toutes les pages
