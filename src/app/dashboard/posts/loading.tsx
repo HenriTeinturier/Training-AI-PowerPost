@@ -1,10 +1,18 @@
-import { Loader } from "@/components/ui/loader";
+import { PowerPostCardsSkeleton } from "./PowerPostCard";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Layout } from "@/components/features/layout/Layout";
 
 export default function Loading() {
   // You can add any UI inside Loading, including a Skeleton.
   return (
-    <div className="w-full h-1/2 text-slate-300 dark:text-gray-500 flex items-center justify-center ">
-      <Loader size={40} />
-    </div>
+    <Layout className="flex flex-col items-start">
+      <Skeleton className="h-[40px] w-[250px]" />
+      <Skeleton className="h-[30px] w-[230px]" />
+      <div className="flex flex-wrap gap-4 justify-center ">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <PowerPostCardsSkeleton key={index} />
+        ))}
+      </div>
+    </Layout>
   );
 }

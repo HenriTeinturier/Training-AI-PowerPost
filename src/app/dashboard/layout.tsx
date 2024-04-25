@@ -1,12 +1,12 @@
 import Link from "next/link";
 
+const HEADER_HEIGHT = 64;
+
 export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const HEADER_HEIGHT = 64;
-
   return (
     <div
       className="max-w-5xl m-auto px-4 flex flex-col flex-grow   "
