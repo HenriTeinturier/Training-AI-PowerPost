@@ -30,9 +30,9 @@ const FilterPostsToggle = () => {
   type FilterPostsToggle = z.infer<typeof filterPostsToggleSchema>;
 
   const [filterPosts, setFilterPosts] = useState<FilterPostsToggle>({
-    mode: undefined,
-    search: undefined,
-    sort: "desc",
+    mode: searchParams.get("mode") as PostMode | undefined,
+    search: searchParams.get("search") as string | undefined,
+    sort: searchParams.get("sort") as FilterPostsToggle["sort"] | "desc",
   });
 
   const updateParams = useDebouncedCallback(
