@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const HEADER_HEIGHT = 64;
+const HEADER_HEIGHT = 64;
 
 export default function DashboardLayout({
   children,
