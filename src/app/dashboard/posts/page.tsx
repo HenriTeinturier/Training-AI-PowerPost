@@ -7,19 +7,40 @@ import {
   LayoutTitle,
 } from "@/components/features/layout/Layout";
 import { redirect } from "next/navigation";
-import { getPosts } from "@/data/datasFunction";
+import { PostsFilter, getPosts } from "@/data/datasFunction";
 import PowerPostCard, { PowerPostCardsSkeleton } from "./PowerPostCard";
 import { Suspense } from "react";
 
-const Posts = async () => {
+export type PostsSearchParams = {
+  search?: string;
+  page?: string;
+  modes?: string;
+  sort?: string;
+};
+
+const Posts = async ({
+  searchParams,
+}: {
+  searchParams?: {
+    search?: string;
+    page?: string;
+    modes?: string;
+    sort?: string;
+  };
+}) => {
   const user = await requiredAuth();
   if (!user) {
     redirect("/api/auth/signin");
   }
 
-  const posts = await getPosts();
+  const postsFilter: PostsFilter = {
+    search: searchParams?.search,
+    page: searchParams?.page,
+    modes: searchParams?.modes,
+    sort: searchParams?.sort,
+  };
 
-  // return <Loading />;
+  const posts = await getPosts(postsFilter);
 
   return (
     <Layout>
@@ -54,6 +75,8 @@ const Posts = async () => {
     //    voir ce que melvyn a fait ajouter
     //    suppression d'un post sur posts? et/ou dans detail view
     //    ajouter une navbar ?
+    ajouter des pages d'erreurs et de notfound
+    regler le problème du logo dark
     // ajouter un footer
     //    Ajuster landing page pricing et éviter double avec dashboard pricing
     //       Ajouter un back to post/id to dashboard/posts
