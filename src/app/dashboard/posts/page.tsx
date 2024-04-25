@@ -6,12 +6,10 @@ import {
   LayoutHeader,
   LayoutTitle,
 } from "@/components/features/layout/Layout";
-import { prisma } from "@/prisma";
 import { redirect } from "next/navigation";
 import { getPosts } from "@/data/datasFunction";
 import PowerPostCard, { PowerPostCardsSkeleton } from "./PowerPostCard";
 import { Suspense } from "react";
-import { Loader } from "@/components/ui/loader";
 
 const Posts = async () => {
   const user = await requiredAuth();
@@ -21,6 +19,8 @@ const Posts = async () => {
 
   const posts = await getPosts();
 
+  // return <Loading />;
+
   return (
     <Layout>
       <LayoutHeader>
@@ -29,23 +29,21 @@ const Posts = async () => {
       </LayoutHeader>
       <LayoutContent>
         <div className="flex flex-wrap gap-4 justify-center">
-          {/* {Array.from({ length: 8 }).map((_, index) => (
-            <PowerPostCardsSkeleton key={index} />
-          ))} */}
-
-          <Suspense
+          {/* <Suspense
             fallback={Array.from({ length: 8 }).map((_, index) => (
               <PowerPostCardsSkeleton key={index} />
             ))}
-          >
-            {posts.map((post, index) => (
-              <PowerPostCard key={post.id + index} post={post} />
-            ))}
-          </Suspense>
+          > */}
+          {posts.map((post, index) => (
+            <PowerPostCard key={post.id + index} post={post} />
+          ))}
+          {/* </Suspense> */}
         </div>
         {/* //TODO:
     //     ajouuter des loaders sur toutes les pages
     //     ajouter une vue table dans les powerposts avec pagination
+    // pourquoi j'ai 13 mo charger sur dashboard? a cause du graph?
+    // ajouter suspense et loader sur accueil
     //     ajouter un lien vers manage plan dans credits + changer affichage si user est premium: ne pas proposer l'option Premium mais proposer un manage plan à la palce
     //     afficher le type de post (via des tags?) (short, ...) dans le dashboard lien vers  dahsboard a coté des tags: createdpost et newpost
     //     ajouter dans la landing page traduction
@@ -66,7 +64,7 @@ const Posts = async () => {
     //      login with google
     //      ajouter des loader dans les server component: + Suspense
     //      Préciser que les paiements sont des fake: donner un exemple de fake card
-    //       mise a jour de createdpost quand on  ajout un nouveau post */}
+    //       mise a jour de createdpost quand on  ajout un nouveau post  */}
       </LayoutContent>
     </Layout>
   );
