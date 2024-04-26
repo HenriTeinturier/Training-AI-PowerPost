@@ -22,10 +22,12 @@ import { BellRing } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ResumePostGraph } from "./resumePostGraph";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import NewsPropal from "./posts/newsPropal";
+import NewsPropal from "./posts/(posts)/newsPropal";
 import { Loader } from "@/components/ui/loader";
 import Link from "next/link";
-import PowerPostCard, { PowerPostCardsSkeleton } from "./posts/PowerPostCard";
+import PowerPostCard, {
+  PowerPostCardsSkeleton,
+} from "./posts/(posts)/PowerPostCard";
 
 export interface SearchParams {
   success?: string;

@@ -15,6 +15,22 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { z } from "zod";
 import { useDebouncedCallback } from "use-debounce";
+import { Skeleton } from "@/components/ui/skeleton";
+
+export const FilterPostsToggleSkeletton = () => {
+  return (
+    <div className="flex justify-center">
+      <div className="flex  gap-2 justify-between p-4 w-[810px]  max-[816px]:w-fit">
+        <div className="flex gap-2 ">
+          <Skeleton className="h-[40px] w-[220px] max-[816px]:w-[350px] "></Skeleton>
+        </div>
+        <div className="flex gap-2">
+          <Skeleton className="h-[40px] w-72 max-[816px]:hidden" />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const FilterPostsToggle = () => {
   const searchParams = useSearchParams();
@@ -37,7 +53,7 @@ const FilterPostsToggle = () => {
   const updateParams = useDebouncedCallback(
     (filterPosts: FilterPostsToggle) => {
       const params = new URLSearchParams(searchParams);
-      params.set("page", "0");
+      params.set("page", "1");
       if (filterPosts.mode) {
         params.set("mode", filterPosts.mode);
       } else {
