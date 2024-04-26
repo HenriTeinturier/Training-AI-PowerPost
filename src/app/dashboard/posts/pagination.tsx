@@ -84,7 +84,7 @@ const generatePagination = (
 const PostPagination = ({ totalPages }: { totalPages: number }) => {
   const pathName = usePathname();
   const searchParams = useSearchParams();
-  const currentPage = parseInt(searchParams.get("page") ?? "0", 10);
+  const currentPage = parseInt(searchParams.get("page") ?? "1", 10);
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage >= totalPages;
 
