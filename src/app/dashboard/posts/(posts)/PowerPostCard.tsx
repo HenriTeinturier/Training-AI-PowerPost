@@ -11,8 +11,6 @@ export type PowerPostCardProps = {
   post: Post;
 };
 
-//TODO add filter by tags, by created at
-
 export const PowerPostCardsSkeleton = () => {
   return (
     <div className="max-w-sm bg-card border border-border rounded-lg shadow flex flex-col justify-between">
@@ -42,20 +40,16 @@ export const PowerPostCard = ({ post }: PowerPostCardProps) => {
     <div className="max-w-sm bg-card border border-border rounded-lg shadow flex flex-col justify-between relative">
       <div>
         <div className="rounded-t-lg overflow-hidden max-h-52 min-h-52 bg-cover ">
-          <Suspense
-            fallback={<Skeleton className="h-[208px] w-[400px] rounded-xl" />}
-          >
-            <Badge variant="secondary" className="absolute right-2  top-2 ">
-              {post.mode}
-            </Badge>
-            <Image
-              src={post.coverUrl || placeholderImage}
-              unoptimized={true}
-              height={208}
-              width={400}
-              alt="cover from source url"
-            />
-          </Suspense>
+          <Badge variant="secondary" className="absolute right-2  top-2 ">
+            {post.mode}
+          </Badge>
+          <Image
+            src={post.coverUrl || placeholderImage}
+            unoptimized={true}
+            height={208}
+            width={400}
+            alt="cover from source url"
+          />
         </div>
         <div className="px-5 pt-5">
           <h5 className="text-xl mb-2 font-bold tracking-tight text-foreground line-clamp-2">

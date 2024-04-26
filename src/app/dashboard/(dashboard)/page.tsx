@@ -1,0 +1,231 @@
+import { requiredAuth } from "@/auth/helper";
+import {
+  Layout,
+  LayoutContent,
+  LayoutDescription,
+  LayoutHeader,
+  LayoutTitle,
+} from "@/components/features/layout/Layout";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { prisma } from "@/prisma";
+import { Post, PostMode } from "@prisma/client";
+import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { stripe } from "@/stripe";
+import { BellRing } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { ResumePostGraph } from "./resumePostGraph";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import NewsPropal from "../posts/(posts)/newsPropal";
+import { Loader } from "@/components/ui/loader";
+import Link from "next/link";
+import PowerPostCard, {
+  PowerPostCardsSkeleton,
+} from "../posts/(posts)/PowerPostCard";
+import { Skeleton } from "@/components/ui/skeleton";
+import StripeDescription from "./stripeDescription";
+import { Last3PowerPost } from "./last3PowerPost";
+import TotalPostDescription from "./totalPostDescription";
+import PostGraph from "./postGraph";
+import { Last2PowerPost } from "./last2PowerPostCard";
+
+export interface SearchParams {
+  success?: string;
+  unsubscribed?: string;
+  canceled?: string;
+  premium?: string;
+  pack?: string;
+  [key: string]: string | string[] | undefined;
+}
+
+export default async function Dashboard({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const user = await requiredAuth();
+
+  if (!user || !user?.stripeCustomerId) {
+    redirect("/api/auth/signin");
+  }
+
+  return (
+    <Layout>
+      <LayoutHeader>
+        <LayoutTitle>Dashboard</LayoutTitle>
+        <LayoutDescription>Find your latest PowerPost</LayoutDescription>
+      </LayoutHeader>
+      <LayoutContent className="flex flex-col gap-4">
+        {searchParams?.unsubscribed ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                📌 You have been successfully unsubscribed 📌
+              </CardTitle>
+              <CardDescription>
+                {`You can continue tu use your PowerPosts.`}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        ) : null}
+        {searchParams?.success ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>You got your credits ✅</CardTitle>
+              <CardDescription>
+                {`Your account is now credited with ${
+                  searchParams?.premium === "true"
+                    ? "40"
+                    : searchParams?.pack === "true"
+                    ? "15"
+                    : "0"
+                } PowerPost.`}
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        ) : null}
+        {searchParams?.canceled ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>Sorry, error during your payment ❌</CardTitle>
+              <CardDescription>Please retry.</CardDescription>
+            </CardHeader>
+          </Card>
+        ) : null}
+        <div className="flex  flex-row flex-wrap md:flex-nowrap   gap-4 ">
+          {/* LeftCards */}
+          <div className="test w-full md:w-1/2 md:grow md:h-full ">
+            <div className="flex flex-col md:h-full gap-4">
+              {/* Welcome card */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Welcome {user?.name}</CardTitle>
+                  <Suspense
+                    fallback={
+                      <CardDescription>
+                        <Skeleton className="h-[20px] w-[250px] mt-2" />
+                      </CardDescription>
+                    }
+                  >
+                    <CardDescription>
+                      <StripeDescription stripeId={user.stripeCustomerId} />
+                    </CardDescription>
+                  </Suspense>
+                </CardHeader>
+                <CardContent>
+                  You have{" "}
+                  <span className="text-primary bold">
+                    {user?.credits} credits
+                  </span>{" "}
+                  left
+                </CardContent>
+              </Card>
+
+              <Suspense
+                fallback={
+                  <Card className="md:h-full">
+                    <CardHeader>
+                      <CardTitle>
+                        <Skeleton className="h-[20px] w-[80x]" />{" "}
+                      </CardTitle>
+                      <CardDescription>
+                        <Skeleton className="h-[17px] w-[150x]" />
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Skeleton className="h-[20px] w-full" />
+                      <Skeleton className="h-[20px] w-full" />
+                      <Skeleton className="h-[20px] w-full" />
+                    </CardContent>
+                  </Card>
+                }
+              >
+                <Card className="md:h-full">
+                  <CardHeader>
+                    <CardTitle>Powerpost</CardTitle>
+                    <CardDescription>
+                      {"Three latest Powerposts"}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Last3PowerPost userId={user.id} />
+                  </CardContent>
+                </Card>
+              </Suspense>
+            </div>
+          </div>
+          {/* right Cards */}
+          <div className="test w-full md:h-full md:w-1/2 md:grow   ">
+            <Card className="md:h-full flex flex-col flex-grow">
+              <CardHeader>
+                <CardTitle>Statistics</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-grow flex flex-col ">
+                <Suspense
+                  fallback={
+                    <div className=" flex items-center space-x-4 mb-6">
+                      <Skeleton className=" rounded-full h-[24px] w-[24px] " />
+                      <div className="flex-1 space-y-1">
+                        <Skeleton className="h-[20px] w-[120px]" />
+                        <Skeleton className="h-[17px] w-[150px]" />
+                      </div>
+                    </div>
+                  }
+                >
+                  <TotalPostDescription />
+                </Suspense>
+
+                <Separator className="my-4" />
+                <Suspense
+                  fallback={
+                    <div className=" flex flex-col flex-grow justify-center items-center space-x-4 h-28 mt-6 ">
+                      <Skeleton className="h-28 w-full" />
+                    </div>
+                  }
+                >
+                  <div className=" flex flex-col flex-grow justify-center items-center space-x-4 h-28 mt-6 ">
+                    {/* <div className="h-full"> */}
+                    <PostGraph />
+                    {/* </div> */}
+                  </div>
+                </Suspense>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+        {/* TODO: reactivate before production */}
+        {/* <div>
+          <Suspense fallback={<Loader className="text-primary" />}>
+          <NewsPropal />
+          </Suspense>
+        </div> */}
+        {/* last2PowerPostCard */}
+        <Suspense
+          fallback={
+            <Card>
+              <CardHeader>
+                <CardTitle>PowerPost</CardTitle>
+                <CardDescription>{"Two latest Powerposts"}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap  justify-center gap-8">
+                  {Array.from({ length: 2 }).map((_, index) => (
+                    <PowerPostCardsSkeleton key={index} />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          }
+        >
+          <Last2PowerPost userId={user.id} />
+        </Suspense>
+      </LayoutContent>
+    </Layout>
+  );
+}

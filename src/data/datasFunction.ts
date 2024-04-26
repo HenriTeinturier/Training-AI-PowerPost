@@ -3,7 +3,7 @@ import { prisma } from "@/prisma";
 import { PostMode, Prisma, User } from "@prisma/client";
 import { z } from "zod";
 
-export const ITEMS_PER_PAGE = 8;
+export const ITEMS_PER_PAGE = 4;
 
 const PostModeSchema = z.nativeEnum(PostMode);
 
@@ -98,21 +98,23 @@ export async function getPostsPages(postsFilter: PostsFilter) {
     };
     if (selectedMode.length > 0) {
       whereClause.mode = {
-        notIn: selectedMode,
+        in: selectedMode,
       };
     }
     if (searchTerm) {
       whereClause.title = {
         contains: searchTerm,
+        mode: "insensitive",
       };
     }
 
     const count = await prisma.post.count({
       where: whereClause,
     });
+    console.log("count", count);
 
     const totalPages = Math.ceil(count / ITEMS_PER_PAGE);
-
+    console.log("totalPage in datafunctions", totalPages);
     return totalPages;
   } catch (error) {
     console.error("Failed to fetch posts:", error);

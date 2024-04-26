@@ -81,9 +81,5 @@ export const ResumePostGraph = ({
       },
     ],
   };
-  return (
-    <div className="flex flex-row  items-start justify-start ">
-      <Bar options={options} data={linechartData} />
-    </div>
-  );
+  return <Bar options={options} data={linechartData} />;
 };
