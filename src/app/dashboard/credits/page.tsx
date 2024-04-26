@@ -8,7 +8,6 @@ import {
   LayoutTitle,
 } from "@/components/features/layout/Layout";
 import { buttonVariants } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { getServerUrl } from "@/getServerUrl";
 import { stripe } from "@/stripe";
 import { Check } from "lucide-react";
@@ -209,12 +208,3 @@ const PricingSection = ({ searchParams }: PricingSectionProps) => {
 };
 
 export default PricingSection;
-
-export const PricingSectionSkeletton = () => {
-  return (
-    <div className="flex max-lg:flex-col gap-10 mt-4 items-center justify-center w-full">
-      <Skeleton className="h-[428px] w-[428px]" />
-      <Skeleton className="h-[428px] w-[428px]" />
-    </div>
-  );
-};
