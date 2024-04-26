@@ -79,23 +79,23 @@ const Posts = async ({
 };
 export default Posts;
 
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+// function delay(ms: number) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }
 
 const PowerpostCards = async ({
   postsFilter,
 }: {
   postsFilter: PostsFilter;
 }) => {
-  // const totalPagePromise = getPostsPages(postsFilter);
-  // const postsPromise = getPosts(postsFilter);
-  const totalPagePromise = getPostsPages(postsFilter).then((result) =>
-    delay(3000).then(() => result)
-  );
-  const postsPromise = getPosts(postsFilter).then((result) =>
-    delay(3000).then(() => result)
-  );
+  const totalPagePromise = getPostsPages(postsFilter);
+  const postsPromise = getPosts(postsFilter);
+  // const totalPagePromise = getPostsPages(postsFilter).then((result) =>
+  //   delay(3000).then(() => result)
+  // );
+  // const postsPromise = getPosts(postsFilter).then((result) =>
+  //   delay(3000).then(() => result)
+  // );
   const [totalPage, posts] = await Promise.all([
     totalPagePromise,
     postsPromise,

@@ -1,10 +1,14 @@
-import { Loader } from "@/components/ui/loader";
+import { LayoutTitle } from "@/components/features/layout/Layout";
+import { Skeleton } from "@/components/ui/skeleton";
+import { PostFormSkeletton } from "./page";
 
 export default function Loading() {
   // You can add any UI inside Loading, including a Skeleton.
   return (
-    <div className="w-full h-1/2 text-slate-300 dark:text-gray-500 flex items-center justify-center ">
-      <Loader size={40} />
-    </div>
+    <LayoutTitle className="flex flex-col items-start gap-4">
+      <Skeleton className="h-[48px] w-[250px]" />
+      <Skeleton className="h-[28px] w-[230px] mt-2" />
+      <PostFormSkeletton />
+    </LayoutTitle>
   );
 }
