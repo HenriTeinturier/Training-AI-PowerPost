@@ -205,6 +205,7 @@ export default async function Dashboard({
           <NewsPropal />
           </Suspense>
         </div> */}
+        {/* last2PowerPostCard */}
         <Suspense
           fallback={
             <Card>
