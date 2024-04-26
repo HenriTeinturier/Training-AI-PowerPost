@@ -25,6 +25,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import NewsPropal from "./posts/newsPropal";
 import { Loader } from "@/components/ui/loader";
 import Link from "next/link";
+import PowerPostCard, { PowerPostCardsSkeleton } from "./posts/PowerPostCard";
 
 export interface SearchParams {
   success?: string;
@@ -60,6 +61,8 @@ export default async function Dashboard({
     },
     take: 3,
   });
+
+  const last2PowerPost = Last3PowerPost.slice(0, 2);
 
   const totalPost = await prisma.post.count();
 
@@ -101,8 +104,6 @@ export default async function Dashboard({
     .finally(async () => {
       await prisma.$disconnect();
     });
-
-  console.log("totalPowerpostByMode", totalPowerpostByMode);
 
   return (
     <Layout>
@@ -214,9 +215,28 @@ export default async function Dashboard({
         {/* TODO: reactivate before production */}
         {/* <div>
           <Suspense fallback={<Loader className="text-primary" />}>
-            <NewsPropal />
+          <NewsPropal />
           </Suspense>
         </div> */}
+        <Card>
+          <CardHeader>
+            <CardTitle>PowerPost</CardTitle>
+            <CardDescription>{"Two latest Powerposts"}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap  justify-center gap-8">
+              <Suspense
+                fallback={Array.from({ length: 2 }).map((_, index) => (
+                  <PowerPostCardsSkeleton key={index} />
+                ))}
+              >
+                {last2PowerPost.map((post, index) => (
+                  <PowerPostCard key={post.id + index} post={post} />
+                ))}
+              </Suspense>
+            </div>
+          </CardContent>
+        </Card>
       </LayoutContent>
     </Layout>
   );

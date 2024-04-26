@@ -23,7 +23,6 @@ const FilterPostsToggle = () => {
 
   const filterPostsToggleSchema = z.object({
     mode: z.nativeEnum(PostMode).optional(),
-    // mode: z.union([z.nativeEnum(PostMode), z.literal("ALL")]).optional(),
     search: z.string().optional(),
     sort: z.enum(["asc", "desc"]),
   });

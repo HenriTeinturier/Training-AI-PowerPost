@@ -5,6 +5,7 @@ import Link from "next/link";
 import placeholderImage from "@/../public/assets/images/placeholder.jpg";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 
 export type PowerPostCardProps = {
   post: Post;
@@ -38,12 +39,15 @@ export const PowerPostCardsSkeleton = () => {
 export const PowerPostCard = ({ post }: PowerPostCardProps) => {
   const domain = new URL(post.source).hostname;
   return (
-    <div className="max-w-sm bg-card border border-border rounded-lg shadow flex flex-col justify-between">
+    <div className="max-w-sm bg-card border border-border rounded-lg shadow flex flex-col justify-between relative">
       <div>
-        <div className="rounded-t-lg overflow-hidden max-h-52 min-h-52 bg-cover">
+        <div className="rounded-t-lg overflow-hidden max-h-52 min-h-52 bg-cover ">
           <Suspense
             fallback={<Skeleton className="h-[208px] w-[400px] rounded-xl" />}
           >
+            <Badge variant="secondary" className="absolute right-2  top-2 ">
+              {post.mode}
+            </Badge>
             <Image
               src={post.coverUrl || placeholderImage}
               unoptimized={true}
@@ -54,7 +58,7 @@ export const PowerPostCard = ({ post }: PowerPostCardProps) => {
           </Suspense>
         </div>
         <div className="px-5 pt-5">
-          <h5 className="mb-2 text-xl font-bold tracking-tight text-foreground line-clamp-2">
+          <h5 className="text-xl mb-2 font-bold tracking-tight text-foreground line-clamp-2">
             {post.title}
           </h5>
           <p className="mb-3 font-normal text-muted-foreground  ">{domain}</p>
