@@ -9,6 +9,7 @@ import PostForm from "./PostForm";
 import { requiredAuth } from "@/auth/helper";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { PostFormSkeleton } from "./postFormSkeleton";
 
 const NewPost = async () => {
   const user = await requiredAuth();
@@ -25,7 +26,7 @@ const NewPost = async () => {
           <LayoutDescription>Create a new Powerpost</LayoutDescription>
         </LayoutHeader>
         <LayoutContent className="flex flex-col gap-4">
-          <Suspense fallback={<PostFormSkeletton />}>
+          <Suspense fallback={<PostFormSkeleton />}>
             <PostForm user={user} />
           </Suspense>
         </LayoutContent>
