@@ -127,12 +127,12 @@ const PowerpostCards = async ({
 
   return <div>test</div>;
 
-  return (
-    <>
-      {posts.map((post, index) => (
-        <PowerPostCard key={post.id + index} post={post} />
-      ))}
-      <PostPagination totalPages={totalPage} />
-    </>
-  );
+  // return (
+  //   <>
+  //     {posts.map((post, index) => (
+  //       <PowerPostCard key={post.id + index} post={post} />
+  //     ))}
+  //     <PostPagination totalPages={totalPage} />
+  //   </>
+  // );
 };
