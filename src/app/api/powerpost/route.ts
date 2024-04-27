@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { requiredAuth } from "@/auth/helper";
 import { prisma } from "@/prisma";
 import { revalidatePath } from "next/cache";
-import { PostSchema } from "@/app/dashboard/posts/new/post.schema";
 
 export const POST = async (req: Request) => {
   const user = await requiredAuth();

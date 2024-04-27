@@ -7,7 +7,7 @@ export const ITEMS_PER_PAGE = 4;
 
 const PostModeSchema = z.nativeEnum(PostMode);
 
-const PostsFilterSchema = z.object({
+export const PostsFilterSchema = z.object({
   search: z.string().optional(),
   page: z
     .string()
@@ -111,10 +111,8 @@ export async function getPostsPages(postsFilter: PostsFilter) {
     const count = await prisma.post.count({
       where: whereClause,
     });
-    console.log("count", count);
 
     const totalPages = Math.ceil(count / ITEMS_PER_PAGE);
-    console.log("totalPage in datafunctions", totalPages);
     return totalPages;
   } catch (error) {
     console.error("Failed to fetch posts:", error);

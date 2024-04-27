@@ -6,7 +6,7 @@ import {
   LayoutHeader,
   LayoutTitle,
 } from "@/components/features/layout/Layout";
-import { redirect } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 import { PostsFilter, getPosts, getPostsPages } from "@/data/datasFunction";
 import PowerPostCard, { PowerPostCardsSkeleton } from "./PowerPostCard";
 import FilterPostsToggle, {
@@ -14,7 +14,10 @@ import FilterPostsToggle, {
 } from "./filterPostsToggle";
 import { Suspense } from "react";
 import PostPagination from "./pagination";
-import { parse } from "path";
+import { getServerUrl } from "@/getServerUrl";
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+import { DotsVerticalIcon } from "@radix-ui/react-icons";
 
 export type PostsSearchParams = {
   search?: string;
@@ -45,12 +48,12 @@ const Posts = async ({
     sort: searchParams?.sort,
   };
 
-  if (
-    postsFilter.page &&
-    (!parseInt(postsFilter.page) || parseInt(postsFilter.page) <= 0)
-  ) {
-    redirect("/dashboard/posts");
-  }
+  // if (
+  //   postsFilter.page &&
+  //   (!parseInt(postsFilter.page) || parseInt(postsFilter.page) <= 0)
+  // ) {
+  //   redirect("/dashboard/posts");
+  // }
 
   return (
     <Layout>
@@ -84,16 +87,45 @@ const PowerpostCards = async ({
 }: {
   postsFilter: PostsFilter;
 }) => {
-  const totalPagePromise = getPostsPages(postsFilter);
-  const postsPromise = getPosts(postsFilter);
-  const [totalPage, posts] = await Promise.all([
-    totalPagePromise,
-    postsPromise,
-  ]);
+  // const totalPagePromise = getPostsPages(postsFilter);
+  // const postsPromise = getPosts(postsFilter);
+  // const [totalPage, posts] = await Promise.all([
+  //   totalPagePromise,
+  //   postsPromise,
+  // ]);
+  // const posts = [];
+  // const totalPage = 0;
 
-  if (postsFilter.page && parseInt(postsFilter.page) <= 0) {
-    redirect("/dashboard/posts");
+  console.log("postsFilter before fetch", postsFilter);
+  const filteredParams = Object.entries(postsFilter).reduce(
+    (acc, [key, value]) => {
+      if (value !== undefined) {
+        // Ici, on vérifie si la valeur n'est pas undefined
+        acc[key] = value;
+      }
+      return acc;
+    },
+    {} as Record<string, string>
+  );
+
+  try {
+    const postsTestsResponse = await fetch(
+      `${getServerUrl()}/api/posts?${new URLSearchParams(filteredParams)}`,
+      {
+        headers: new Headers(headers()),
+      }
+    );
+    if (!postsTestsResponse.ok) {
+      const errorData = await postsTestsResponse.json();
+      throw new Error(errorData.error);
+    }
+
+    console.log("hello world");
+  } catch (error) {
+    throw error;
   }
+
+  return <div>test</div>;
 
   return (
     <>
