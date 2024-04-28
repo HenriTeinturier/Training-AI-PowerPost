@@ -3,12 +3,15 @@ import {
   ITEMS_PER_PAGE,
   PostsFilter,
   PostsFilterSchema,
+  PostsFilterSchemaType,
+  postsArraySchema,
 } from "@/data/datasFunction";
 import { prisma } from "@/prisma";
-import { redirect } from "next/navigation";
+import { Post, Prisma } from "@prisma/client";
+import { NextApiResponse } from "next";
 
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError } from "zod";
+import { ZodError, z } from "zod";
 
 export async function GET(request: NextRequest) {
   const user = await requiredAuth();
@@ -18,23 +21,70 @@ export async function GET(request: NextRequest) {
   }
 
   const searchParams = request.nextUrl.searchParams;
-  const postsFilter: PostsFilter = {
+  let postsFilter: PostsFilter = {
     search: searchParams.get("search") || undefined,
     page: searchParams.get("page") || undefined,
     mode: searchParams.get("mode") || undefined,
     sort: searchParams.get("sort") || undefined,
   };
 
+  let postsFilterValidated: PostsFilterSchemaType;
   try {
-    const postsFilterValidated = PostsFilterSchema.parse(postsFilter);
-    return NextResponse.json("hello world");
+    postsFilterValidated = PostsFilterSchema.parse(postsFilter);
+  } catch (error) {
+    return NextResponse.json({ error: "Wrong Url" }, { status: 404 });
+  }
+
+  try {
+    const selectedMode = postsFilterValidated.mode;
+    const sortOrder = postsFilterValidated.sort ?? "desc";
+    const searchTerm = postsFilterValidated.search ?? "";
+    const page = postsFilterValidated.page ?? 1;
+
+    const offset = page - 1 < 1 ? 0 : page - 1;
+
+    const whereClause: Prisma.PostWhereInput = {
+      userId: user.id,
+    };
+
+    if (selectedMode.length > 0) {
+      whereClause.mode = {
+        in: selectedMode,
+      };
+    }
+    if (searchTerm) {
+      whereClause.title = {
+        contains: searchTerm,
+        mode: "insensitive",
+      };
+    }
+    const [posts, count] = await Promise.all([
+      prisma.post.findMany({
+        where: whereClause,
+        orderBy: {
+          createdAt: sortOrder,
+        },
+        take: ITEMS_PER_PAGE,
+        skip: offset * ITEMS_PER_PAGE,
+      }),
+      prisma.post.count({
+        where: whereClause,
+      }),
+    ]);
+    postsArraySchema.parse(posts);
+    z.number().parse(count);
+
+    const totalPages = Math.ceil(count / ITEMS_PER_PAGE);
+
+    return NextResponse.json({ posts, count: totalPages });
   } catch (e) {
     if (e instanceof ZodError) {
       const issues = e.issues;
       const message = issues.map((issue) => issue.message).join(", ");
       console.log("error zod", message);
-      return NextResponse.json({ error: "URL error" }, { status: 400 });
+      return NextResponse.json({ error: "not found" }, { status: 404 });
     }
+    console.log("errror in response", e);
     return NextResponse.json(
       { error: "error in response Unhandled error" },
       { status: 400 }

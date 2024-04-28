@@ -1,6 +1,7 @@
 import { requiredAuth } from "@/auth/helper";
-import { prisma } from "@/prisma";
-import { PostMode, Prisma, User } from "@prisma/client";
+import { getServerUrl } from "@/getServerUrl";
+import { Post, PostMode, User } from "@prisma/client";
+import { headers } from "next/headers";
 import { z } from "zod";
 
 export const ITEMS_PER_PAGE = 4;
@@ -26,6 +27,21 @@ export const PostsFilterSchema = z.object({
   sort: z.enum(["asc", "desc"]).optional(),
 });
 
+export const postSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  source: z.string().url(),
+  content: z.string(),
+  powerPost: z.string(),
+  mode: z.nativeEnum(PostMode),
+  coverUrl: z.string().url(),
+  userId: z.string(),
+});
+
+export const postsArraySchema = z.array(postSchema);
+
+export type PostsFilterSchemaType = z.infer<typeof PostsFilterSchema>;
+
 export type PostsFilter = {
   search?: string;
   page?: string;
@@ -33,89 +49,29 @@ export type PostsFilter = {
   sort?: string;
 };
 
-export async function getPosts(postsFilter: PostsFilter) {
+export async function getPosts(
+  searchParams: PostsFilter
+): Promise<{ posts: Post[]; count: number }> {
   const user: User | null = await requiredAuth();
 
   if (!user) {
     throw new Error("User not found");
   }
 
-  try {
-    const postsFilterValidated = PostsFilterSchema.parse(postsFilter);
-    const selectedMode: PostMode[] = postsFilterValidated.mode;
-    const sortOrder: "asc" | "desc" = postsFilterValidated.sort ?? "desc";
-    const searchTerm: string = postsFilterValidated.search ?? "";
-    const page = postsFilterValidated.page ?? 1;
-
-    const offset = page - 1 < 1 ? 0 : page - 1;
-
-    const whereClause: Prisma.PostWhereInput = {
-      userId: user.id,
-    };
-
-    if (selectedMode.length > 0) {
-      whereClause.mode = {
-        in: selectedMode,
-      };
+  const postsResponse = await fetch(
+    `${getServerUrl()}/api/posts?${new URLSearchParams(searchParams)}`,
+    {
+      headers: new Headers(headers()),
     }
-    if (searchTerm) {
-      whereClause.title = {
-        contains: searchTerm,
-        mode: "insensitive",
-      };
-    }
+  );
 
-    const posts = await prisma.post.findMany({
-      where: whereClause,
-      orderBy: {
-        createdAt: sortOrder,
-      },
-      take: ITEMS_PER_PAGE,
-      skip: offset * ITEMS_PER_PAGE,
-    });
+  if (!postsResponse.ok) {
+    const error = await postsResponse.json();
+    throw new Error(`${postsResponse.status}: ${error.error}`);
+  } else {
+    const { posts, count }: { posts: Post[]; count: number } =
+      await postsResponse.json();
 
-    return posts;
-  } catch (error) {
-    console.error("Failed to fetch posts:", error);
-    throw error;
-  }
-}
-
-export async function getPostsPages(postsFilter: PostsFilter) {
-  const user = await requiredAuth();
-
-  if (!user) {
-    throw new Error("User not found");
-  }
-
-  try {
-    const postsFilterValidated = PostsFilterSchema.parse(postsFilter);
-    const selectedMode: PostMode[] = postsFilterValidated.mode;
-    const searchTerm: string = postsFilterValidated.search ?? "";
-
-    const whereClause: Prisma.PostWhereInput = {
-      userId: user.id,
-    };
-    if (selectedMode.length > 0) {
-      whereClause.mode = {
-        in: selectedMode,
-      };
-    }
-    if (searchTerm) {
-      whereClause.title = {
-        contains: searchTerm,
-        mode: "insensitive",
-      };
-    }
-
-    const count = await prisma.post.count({
-      where: whereClause,
-    });
-
-    const totalPages = Math.ceil(count / ITEMS_PER_PAGE);
-    return totalPages;
-  } catch (error) {
-    console.error("Failed to fetch posts:", error);
-    throw error;
+    return { posts: posts, count: count };
   }
 }
