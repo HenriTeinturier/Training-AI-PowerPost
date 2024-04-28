@@ -27,7 +27,6 @@ async function countPostsByModeIncludingZeros() {
     }
   });
 
-  console.log(modeCounts);
   return modeCounts;
 }
 

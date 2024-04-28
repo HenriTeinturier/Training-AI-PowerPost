@@ -25,7 +25,6 @@ const Posts = async ({
     sort?: string;
   };
 }) => {
-  // console.log("searchParams dans la page post", searchParams);
   const user = await requiredAuth();
   if (!user) {
     redirect("/api/auth/signin");

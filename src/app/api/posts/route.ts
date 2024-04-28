@@ -84,7 +84,6 @@ export async function GET(request: NextRequest) {
       console.log("error zod", message);
       return NextResponse.json({ error: "not found" }, { status: 404 });
     }
-    console.log("errror in response", e);
     return NextResponse.json(
       { error: "error in response Unhandled error" },
       { status: 400 }
