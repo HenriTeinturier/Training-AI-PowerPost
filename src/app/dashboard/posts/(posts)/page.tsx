@@ -7,49 +7,28 @@ import {
   LayoutTitle,
 } from "@/components/features/layout/Layout";
 import { redirect } from "next/navigation";
-import { PostsFilter, getPosts, getPostsPages } from "@/data/datasFunction";
+import { PostsFilter, getPosts } from "@/data/datasFunction";
 import PowerPostCard, { PowerPostCardsSkeleton } from "./PowerPostCard";
 import FilterPostsToggle, {
   FilterPostsToggleSkeletton,
 } from "./filterPostsToggle";
 import { Suspense } from "react";
 import PostPagination from "./pagination";
-import { parse } from "path";
-
-export type PostsSearchParams = {
-  search?: string;
-  page?: string;
-  mode?: string;
-  sort?: string;
-};
 
 const Posts = async ({
   searchParams,
 }: {
-  searchParams?: {
+  searchParams: {
     search?: string;
     page?: string;
     mode?: string;
     sort?: string;
   };
 }) => {
+  // console.log("searchParams dans la page post", searchParams);
   const user = await requiredAuth();
   if (!user) {
     redirect("/api/auth/signin");
-  }
-
-  const postsFilter: PostsFilter = {
-    search: searchParams?.search,
-    page: searchParams?.page,
-    mode: searchParams?.mode,
-    sort: searchParams?.sort,
-  };
-
-  if (
-    postsFilter.page &&
-    (!parseInt(postsFilter.page) || parseInt(postsFilter.page) <= 0)
-  ) {
-    redirect("/dashboard/posts");
   }
 
   return (
@@ -69,7 +48,7 @@ const Posts = async ({
                 <PowerPostCardsSkeleton key={index} />
               ))}
             >
-              <PowerpostCards postsFilter={postsFilter} />
+              <PowerpostCards searchParams={searchParams} />
             </Suspense>
           </div>
         </div>
@@ -80,20 +59,11 @@ const Posts = async ({
 export default Posts;
 
 const PowerpostCards = async ({
-  postsFilter,
+  searchParams,
 }: {
-  postsFilter: PostsFilter;
+  searchParams: PostsFilter;
 }) => {
-  const totalPagePromise = getPostsPages(postsFilter);
-  const postsPromise = getPosts(postsFilter);
-  const [totalPage, posts] = await Promise.all([
-    totalPagePromise,
-    postsPromise,
-  ]);
-
-  if (postsFilter.page && parseInt(postsFilter.page) <= 0) {
-    redirect("/dashboard/posts");
-  }
+  const { posts, count: totalPage } = await getPosts(searchParams);
 
   return (
     <>
