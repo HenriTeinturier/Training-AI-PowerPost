@@ -1,53 +1,12 @@
+"use server";
 import { requiredAuth } from "@/auth/helper";
 import { getServerUrl } from "@/getServerUrl";
+import { revalidatePosts } from "@/lib/actions";
 import { Post, PostMode, User } from "@prisma/client";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { headers } from "next/headers";
 import { z } from "zod";
-
-export const ITEMS_PER_PAGE = 4;
-
-const PostModeSchema = z.nativeEnum(PostMode);
-
-export const PostsFilterSchema = z.object({
-  search: z.string().optional(),
-  page: z
-    .string()
-    .transform((value) => parseInt(value, 10))
-    .optional(),
-  mode: z
-    .string()
-    .optional()
-    .transform((mode) =>
-      mode
-        ? mode.split(",").map((mode) => {
-            return PostModeSchema.parse(mode);
-          })
-        : []
-    ),
-  sort: z.enum(["asc", "desc"]).optional(),
-});
-
-export const postSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  source: z.string().url(),
-  content: z.string(),
-  powerPost: z.string(),
-  mode: z.nativeEnum(PostMode),
-  coverUrl: z.string().url(),
-  userId: z.string(),
-});
-
-export const postsArraySchema = z.array(postSchema);
-
-export type PostsFilterSchemaType = z.infer<typeof PostsFilterSchema>;
-
-export type PostsFilter = {
-  search?: string;
-  page?: string;
-  mode?: string;
-  sort?: string;
-};
+import { PostsFilter } from "./datasFunctionUtils";
 
 export async function getPosts(
   searchParams: PostsFilter
@@ -62,6 +21,7 @@ export async function getPosts(
     `${getServerUrl()}/api/posts?${new URLSearchParams(searchParams)}`,
     {
       headers: new Headers(headers()),
+      next: { tags: ["post"] },
     }
   );
 

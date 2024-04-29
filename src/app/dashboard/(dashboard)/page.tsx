@@ -13,14 +13,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { prisma } from "@/prisma";
-import { Post, PostMode } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { stripe } from "@/stripe";
-import { BellRing } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { ResumePostGraph } from "./resumePostGraph";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import NewsPropal from "../posts/(posts)/newsPropal";
 import { Loader } from "@/components/ui/loader";

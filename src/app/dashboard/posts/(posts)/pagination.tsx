@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -8,6 +8,7 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -126,12 +127,23 @@ const PostPagination = ({ totalPages }: { totalPages: number }) => {
           {allPages.pagesDisplay.map((page) => {
             return (
               <PaginationItem key={page.pageNumber}>
-                <PaginationLink
-                  href={createPageURL(page.pageNumber)}
-                  isActive={page.isActive}
-                >
-                  {page.pageNumber}
-                </PaginationLink>
+                <Link href={createPageURL(page.pageNumber)}>
+                  <Button
+                    // aria-current={page.isActive ? "page" : undefined}
+                    className={cn(
+                      buttonVariants({
+                        variant: page.isActive ? "outline" : "ghost",
+                        // variant: "outline",
+                        size: "icon",
+                      }),
+                      "bg-card dark:bg-card dark:text-card-foreground dark:hover:bg-accent dark:hover:text-accent-foreground",
+                      page.isActive ? " " : "border-none shadow-none",
+                      {}
+                    )}
+                  >
+                    {page.pageNumber}
+                  </Button>
+                </Link>
               </PaginationItem>
             );
           })}

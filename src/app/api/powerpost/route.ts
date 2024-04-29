@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { requiredAuth } from "@/auth/helper";
 import { prisma } from "@/prisma";
-import { revalidatePath } from "next/cache";
 
 export const POST = async (req: Request) => {
   const user = await requiredAuth();
@@ -39,9 +38,6 @@ export const POST = async (req: Request) => {
         userId: user.id,
       },
     });
-
-    revalidatePath("@/dashboard");
-    revalidatePath("@/dashboard/posts");
 
     await prisma.user.update({
       where: { id: user.id },

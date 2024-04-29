@@ -40,6 +40,7 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 import Link from "next/link";
+import { revalidatePosts } from "@/lib/actions";
 
 export type PostFormProps = {
   defaultSource?: string;
@@ -119,7 +120,9 @@ const PostForm = (props: PostFormProps) => {
 
       return json;
     },
-    onSuccess: (powerpost) => {
+    onSuccess: async (powerpost) => {
+      await revalidatePosts();
+      // router.push(`/dashboard/posts`);
       router.push(`/dashboard/posts/${powerpost.id}`);
     },
     onError: (error) => {

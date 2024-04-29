@@ -5,7 +5,7 @@ import {
   PostsFilterSchema,
   PostsFilterSchemaType,
   postsArraySchema,
-} from "@/data/datasFunction";
+} from "@/data/datasFunctionUtils";
 import { prisma } from "@/prisma";
 import { Post, Prisma } from "@prisma/client";
 import { NextApiResponse } from "next";

@@ -7,14 +7,16 @@ import {
   LayoutTitle,
 } from "@/components/features/layout/Layout";
 import { redirect } from "next/navigation";
-import { PostsFilter, getPosts } from "@/data/datasFunction";
+import { getPosts } from "@/data/datasFunction";
 import PowerPostCard, { PowerPostCardsSkeleton } from "./PowerPostCard";
 import FilterPostsToggle, {
   FilterPostsToggleSkeletton,
 } from "./filterPostsToggle";
 import { Suspense } from "react";
 import PostPagination from "./pagination";
+import { PostsFilter } from "@/data/datasFunctionUtils";
 
+export const dynamic = "auto";
 const Posts = async ({
   searchParams,
 }: {
