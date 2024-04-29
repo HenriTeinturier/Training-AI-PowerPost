@@ -1,8 +1,4 @@
-import { getPosts } from "@/data/datasFunction";
-import { PostsFilter } from "@/data/datasFunctionUtils";
-import { Suspense } from "react";
 import PowerPostCard from "./PowerPostCard";
-import PostPagination from "./pagination";
 import { Post } from "@prisma/client";
 
 const PowerpostCards = ({
@@ -17,7 +13,7 @@ const PowerpostCards = ({
       {posts.map((post, index) => (
         <PowerPostCard key={post.id + index} post={post} />
       ))}
-      <PostPagination totalPages={totalPage} />
+      {/* <PostPagination totalPages={totalPage} /> */}
     </>
   );
 };
