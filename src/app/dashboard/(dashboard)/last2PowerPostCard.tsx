@@ -10,7 +10,7 @@ import { Post } from "@prisma/client";
 import { Suspense } from "react";
 import PowerPostCard, {
   PowerPostCardsSkeleton,
-} from "../posts/posts/PowerPostCard";
+} from "../posts/(posts)/PowerPostCard";
 
 export const Last2PowerPost = async ({ userId }: { userId: string }) => {
   const getLast2PowerPost: Post[] = await prisma.post.findMany({
