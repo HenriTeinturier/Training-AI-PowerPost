@@ -100,8 +100,8 @@ const PricingSection = ({ searchParams }: PricingSectionProps) => {
                     if (!stripeSession.url) {
                       throw new Error("No stripe session");
                     }
-                    revalidatePath("/dashboard");
-                    revalidatePath("/dashboard/posts");
+                    await revalidatePath("/dashboard");
+                    // revalidatePath("/dashboard/posts");
                     redirect(stripeSession.url);
                   }}
                   className={buttonVariants({ variant: "default" })}
@@ -186,7 +186,7 @@ const PricingSection = ({ searchParams }: PricingSectionProps) => {
                       throw new Error("No stripe session");
                     }
 
-                    revalidatePath("/dashboard");
+                    await revalidatePath("/dashboard");
                     redirect(stripeSession.url);
                   }}
                   className={buttonVariants({ variant: "default" })}

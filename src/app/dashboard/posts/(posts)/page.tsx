@@ -7,16 +7,13 @@ import {
   LayoutTitle,
 } from "@/components/features/layout/Layout";
 import { redirect } from "next/navigation";
-import { getPosts } from "@/data/datasFunction";
-import PowerPostCard, { PowerPostCardsSkeleton } from "./PowerPostCard";
 import FilterPostsToggle, {
   FilterPostsToggleSkeletton,
 } from "./filterPostsToggle";
 import { Suspense } from "react";
-import PostPagination from "./pagination";
-import { PostsFilter } from "@/data/datasFunctionUtils";
+import PowerPostCardsWrapper from "./PowerPostCardsWrapper";
 
-export const dynamic = "auto";
+// export const dynamic = "auto";
 const Posts = async ({
   searchParams,
 }: {
@@ -42,36 +39,10 @@ const Posts = async ({
         <Suspense fallback={<FilterPostsToggleSkeletton />}>
           <FilterPostsToggle />
         </Suspense>
-        <div className="flex flex-wrap gap-4 justify-center">
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Suspense
-              fallback={Array.from({ length: 8 }).map((_, index) => (
-                <PowerPostCardsSkeleton key={index} />
-              ))}
-            >
-              <PowerpostCards searchParams={searchParams} />
-            </Suspense>
-          </div>
-        </div>
+
+        <PowerPostCardsWrapper searchParams={searchParams} />
       </LayoutContent>
     </Layout>
   );
 };
 export default Posts;
-
-const PowerpostCards = async ({
-  searchParams,
-}: {
-  searchParams: PostsFilter;
-}) => {
-  const { posts, count: totalPage } = await getPosts(searchParams);
-
-  return (
-    <>
-      {posts.map((post, index) => (
-        <PowerPostCard key={post.id + index} post={post} />
-      ))}
-      <PostPagination totalPages={totalPage} />
-    </>
-  );
-};

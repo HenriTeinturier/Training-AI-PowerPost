@@ -1,11 +1,8 @@
 "use server";
 import { requiredAuth } from "@/auth/helper";
 import { getServerUrl } from "@/getServerUrl";
-import { revalidatePosts } from "@/lib/actions";
-import { Post, PostMode, User } from "@prisma/client";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { Post, User } from "@prisma/client";
 import { headers } from "next/headers";
-import { z } from "zod";
 import { PostsFilter } from "./datasFunctionUtils";
 
 export async function getPosts(

@@ -29,7 +29,7 @@ export const UserDropdown = ({ children }: PropsWithChildren) => {
             action={async () => {
               "use server";
               const url = await managePlanAction();
-              revalidatePath("/dashboard");
+              await revalidatePath("/dashboard");
               redirect(url);
             }}
           >
