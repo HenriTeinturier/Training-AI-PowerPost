@@ -8,12 +8,12 @@ import {
 } from "@/components/features/layout/Layout";
 import { redirect } from "next/navigation";
 import { getPosts } from "@/data/datasFunction";
-import PowerPostCard, { PowerPostCardsSkeleton } from "./PowerPostCard";
+import PowerPostCard, { PowerPostCardsSkeleton } from "./posts/PowerPostCard";
 import FilterPostsToggle, {
   FilterPostsToggleSkeletton,
-} from "./filterPostsToggle";
+} from "./posts/filterPostsToggle";
 import { Suspense } from "react";
-import PostPagination from "./pagination";
+import PostPagination from "./posts/pagination";
 import { PostsFilter } from "@/data/datasFunctionUtils";
 
 export const dynamic = "auto";
@@ -42,17 +42,19 @@ const Posts = async ({
         <Suspense fallback={<FilterPostsToggleSkeletton />}>
           <FilterPostsToggle />
         </Suspense>
-        <div className="flex flex-wrap gap-4 justify-center">
+        <Suspense fallback={<div>Loading...</div>}>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Suspense
-              fallback={Array.from({ length: 8 }).map((_, index) => (
-                <PowerPostCardsSkeleton key={index} />
-              ))}
-            >
-              <PowerpostCards searchParams={searchParams} />
-            </Suspense>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Suspense
+                fallback={Array.from({ length: 8 }).map((_, index) => (
+                  <PowerPostCardsSkeleton key={index} />
+                ))}
+              >
+                <PowerpostCards searchParams={searchParams} />
+              </Suspense>
+            </div>
           </div>
-        </div>
+        </Suspense>
       </LayoutContent>
     </Layout>
   );
@@ -68,10 +70,12 @@ const PowerpostCards = async ({
 
   return (
     <>
-      {posts.map((post, index) => (
-        <PowerPostCard key={post.id + index} post={post} />
-      ))}
-      <PostPagination totalPages={totalPage} />
+      <Suspense fallback={<div>Loading...</div>}>
+        {posts.map((post, index) => (
+          <PowerPostCard key={post.id + index} post={post} />
+        ))}
+        <PostPagination totalPages={totalPage} />
+      </Suspense>
     </>
   );
 };
