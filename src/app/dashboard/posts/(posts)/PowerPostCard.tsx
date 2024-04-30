@@ -6,9 +6,10 @@ import Link from "next/link";
 import placeholderImage from "@/../public/assets/images/placeholder.jpg";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { PostShort } from "@/models/models";
 
 export type PowerPostCardProps = {
-  post: Post;
+  post: PostShort;
 };
 
 export const PowerPostCardsSkeleton = () => {

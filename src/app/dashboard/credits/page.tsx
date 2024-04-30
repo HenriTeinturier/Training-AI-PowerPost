@@ -21,7 +21,13 @@ interface PricingSectionProps {
   };
 }
 
-const PricingSection = ({ searchParams }: PricingSectionProps) => {
+const PricingSection = async ({ searchParams }: PricingSectionProps) => {
+  const user = await requiredAuth();
+
+  if (!user) {
+    redirect("/");
+  }
+
   return (
     <>
       <Layout>
@@ -67,11 +73,6 @@ const PricingSection = ({ searchParams }: PricingSectionProps) => {
                 <SubmitButton
                   formAction={async () => {
                     "use server";
-                    const user = await requiredAuth();
-
-                    if (!user) {
-                      redirect("/api/auth/signin");
-                    }
 
                     if (!user.stripeCustomerId) {
                       throw new Error("No stripe customer id");
@@ -142,11 +143,6 @@ const PricingSection = ({ searchParams }: PricingSectionProps) => {
                 <SubmitButton
                   formAction={async () => {
                     "use server";
-                    const user = await requiredAuth();
-
-                    if (!user) {
-                      redirect("/api/auth/signin");
-                    }
 
                     if (!user.stripeCustomerId) {
                       throw new Error("No stripe customer id");

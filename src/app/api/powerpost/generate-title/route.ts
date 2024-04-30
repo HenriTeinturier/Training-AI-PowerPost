@@ -1,11 +1,13 @@
 import { requiredAuth } from "@/auth/helper";
 import { NextResponse } from "next/server";
 import { openai } from "@/openai";
+import { redirect } from "next/navigation";
 
 export const POST = async (req: Request) => {
   const user = await requiredAuth();
 
   if (!user) {
+    redirect("/");
     return NextResponse.json(
       { error: "You must be authenticated to access this resource." },
       { status: 401 }

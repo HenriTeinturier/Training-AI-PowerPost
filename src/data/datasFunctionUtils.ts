@@ -35,7 +35,13 @@ export const postSchema = z.object({
   userId: z.string(),
 });
 
+export const postShortSchema = postSchema.omit({
+  content: true,
+  powerPost: true,
+});
+
 export const postsArraySchema = z.array(postSchema);
+export const postsShortArraySchema = z.array(postShortSchema);
 
 export type PostsFilterSchemaType = z.infer<typeof PostsFilterSchema>;
 

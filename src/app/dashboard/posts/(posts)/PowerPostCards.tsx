@@ -1,3 +1,4 @@
+import { PostShort } from "@/models/models";
 import PowerPostCard from "./PowerPostCard";
 import { Post } from "@prisma/client";
 
@@ -5,7 +6,7 @@ const PowerpostCards = ({
   posts,
   totalPage,
 }: {
-  posts: Post[];
+  posts: PostShort[];
   totalPage: number;
 }) => {
   return (

@@ -26,7 +26,7 @@ const Posts = async ({
 }) => {
   const user = await requiredAuth();
   if (!user) {
-    redirect("/api/auth/signin");
+    redirect("/");
   }
 
   return (

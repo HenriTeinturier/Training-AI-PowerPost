@@ -1,10 +1,18 @@
 import { NextResponse } from "next/server";
 import { requiredAuth } from "@/auth/helper";
 import { prisma } from "@/prisma";
+import { redirect } from "next/navigation";
 
 export const POST = async (req: Request) => {
   const user = await requiredAuth();
 
+  if (!user) {
+    redirect("/");
+    // return NextResponse.json(
+    //   { error: "You must be authenticated to access this resource." },
+    //   { status: 401 }
+    // );
+  }
   const getId = (title: string) => {
     const cleanTitle = title
       .normalize("NFD")
@@ -13,13 +21,6 @@ export const POST = async (req: Request) => {
       .toLowerCase();
     return cleanTitle + Math.random().toString(36).substring(7);
   };
-
-  if (!user) {
-    return NextResponse.json(
-      { error: "You must be authenticated to access this resource." },
-      { status: 401 }
-    );
-  }
 
   try {
     const body = await req.json();
