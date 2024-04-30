@@ -16,19 +16,13 @@ import {
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import NewsPropal from "../posts/(posts)/newsPropal";
-import { Loader } from "@/components/ui/loader";
-import Link from "next/link";
-import PowerPostCard, {
-  PowerPostCardsSkeleton,
-} from "../posts/(posts)/PowerPostCard";
+// import NewsPropal from "../posts/(posts)/newsPropal";
+import { PowerPostCardsSkeleton } from "../posts/(posts)/PowerPostCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import StripeDescription from "./stripeDescription";
-import { Last3PowerPost } from "./last3PowerPost";
+import { LastPowerPosts } from "./lastPowerPosts";
 import TotalPostDescription from "./totalPostDescription";
 import PostGraph from "./postGraph";
-import { Last2PowerPost } from "./last2PowerPostCard";
 
 export interface SearchParams {
   success?: string;
@@ -47,7 +41,7 @@ export default async function Dashboard({
   const user = await requiredAuth();
 
   if (!user || !user?.stripeCustomerId) {
-    redirect("/api/auth/signin");
+    redirect("/");
   }
 
   return (
@@ -149,13 +143,14 @@ export default async function Dashboard({
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <Last3PowerPost userId={user.id} />
+                    <LastPowerPosts userId={user.id} displayType={"table"} />
                   </CardContent>
                 </Card>
               </Suspense>
             </div>
           </div>
           {/* right Cards */}
+
           <div className="test w-full md:h-full md:w-1/2 md:grow   ">
             <Card className="md:h-full flex flex-col flex-grow">
               <CardHeader>
@@ -200,7 +195,6 @@ export default async function Dashboard({
           <NewsPropal />
           </Suspense>
         </div> */}
-        {/* last2PowerPostCard */}
         <Suspense
           fallback={
             <Card>
@@ -218,7 +212,7 @@ export default async function Dashboard({
             </Card>
           }
         >
-          <Last2PowerPost userId={user.id} />
+          <LastPowerPosts userId={user.id} displayType={"card"} />
         </Suspense>
       </LayoutContent>
     </Layout>

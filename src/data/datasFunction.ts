@@ -1,19 +1,12 @@
 "use server";
-import { requiredAuth } from "@/auth/helper";
 import { getServerUrl } from "@/getServerUrl";
-import { Post, User } from "@prisma/client";
+import { Post } from "@prisma/client";
 import { headers } from "next/headers";
 import { PostsFilter } from "./datasFunctionUtils";
 
 export async function getPosts(
   searchParams: PostsFilter
 ): Promise<{ posts: Post[]; count: number }> {
-  const user: User | null = await requiredAuth();
-
-  if (!user) {
-    throw new Error("User not found");
-  }
-
   const postsResponse = await fetch(
     `${getServerUrl()}/api/posts?${new URLSearchParams(searchParams)}`,
     {

@@ -3,9 +3,10 @@ import { PowerPostCardsSkeleton } from "./PowerPostCard";
 import PowerpostCards from "./PowerPostCards";
 import { getPosts } from "@/data/datasFunction";
 import { useQuery } from "@tanstack/react-query";
-import { Post } from "@prisma/client";
 import { useEffect, useState } from "react";
 import PostPagination from "./pagination";
+import { redirect } from "next/navigation";
+import { PostShort } from "@/models/models";
 
 const PowerPostCardsWrapper = ({
   searchParams,
@@ -19,15 +20,17 @@ const PowerPostCardsWrapper = ({
 }) => {
   const [totalPage, setTotalPage] = useState<null | number>(1);
 
-  const { data, isSuccess } = useQuery<{ posts: Post[]; count: number }>({
+  const { data, isSuccess, isError } = useQuery<{
+    posts: PostShort[];
+    count: number;
+  }>({
     queryKey: ["posts", searchParams],
     queryFn: () => getPosts(searchParams),
-    // {
-    //   onSuccess: (test) => {
-    //     setTotalPage(test.count);
-    //   },
-    // }
   });
+
+  if (isError) {
+    redirect("/");
+  }
 
   useEffect(() => {
     if (isSuccess) {

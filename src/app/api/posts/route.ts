@@ -5,10 +5,12 @@ import {
   PostsFilterSchema,
   PostsFilterSchemaType,
   postsArraySchema,
+  postsShortArraySchema,
 } from "@/data/datasFunctionUtils";
 import { prisma } from "@/prisma";
 import { Post, Prisma } from "@prisma/client";
 import { NextApiResponse } from "next";
+import { redirect } from "next/navigation";
 
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, z } from "zod";
@@ -17,6 +19,7 @@ export async function GET(request: NextRequest) {
   const user = await requiredAuth();
 
   if (!user) {
+    redirect("/");
     throw new Error("Not user in route test get");
   }
 
@@ -64,6 +67,16 @@ export async function GET(request: NextRequest) {
         orderBy: {
           createdAt: sortOrder,
         },
+        select: {
+          id: true,
+          source: true,
+          // powerPost: true,
+          coverUrl: true,
+          userId: true,
+          title: true,
+          mode: true,
+          createdAt: true,
+        },
         take: ITEMS_PER_PAGE,
         skip: offset * ITEMS_PER_PAGE,
       }),
@@ -71,7 +84,7 @@ export async function GET(request: NextRequest) {
         where: whereClause,
       }),
     ]);
-    postsArraySchema.parse(posts);
+    postsShortArraySchema.parse(posts);
     z.number().parse(count);
 
     const totalPages = Math.ceil(count / ITEMS_PER_PAGE);

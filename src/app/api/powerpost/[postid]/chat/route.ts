@@ -5,6 +5,7 @@ import { requiredAuth } from "@/auth/helper";
 import { prisma } from "@/prisma";
 import { openai } from "@/openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
+import { redirect } from "next/navigation";
 
 const BodySchema = z.object({
   messages: MessagesSchema,
@@ -14,6 +15,11 @@ export const POST = async (
   req: NextRequest,
   { params }: { params: { postid: string } }
 ) => {
+  const user = await requiredAuth();
+  if (!user) {
+    redirect("/");
+  }
+
   const rawBody = await req.json();
 
   const body = BodySchema.parse(rawBody);
@@ -34,9 +40,10 @@ export const POST = async (
     return NextResponse.json({ error: "Post not found" }, { status: 404 });
   }
 
-  const user = await requiredAuth();
+  // const user = await requiredAuth();
 
   if (user.id !== post.userId) {
+    redirect("/");
     return NextResponse.json(
       { error: "You are not authorized to access this resource." },
       { status: 401 }
