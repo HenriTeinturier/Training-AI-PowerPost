@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/features/layout/Header";
 import { Providers } from "./providers";
 import { cn } from "@/lib/utils";
+import { Footer } from "@/components/features/layout/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,12 +20,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full">
-      <body className={cn(inter.className, "h-full")}>
+      <body className={cn(inter.className, "h-full flex-grow flex flex-col")}>
         <Providers>
           <Header />
           {children}
           {/* <SpeedInsights /> */}
           {/* <Analytics /> */}
+          <Footer />
         </Providers>
       </body>
     </html>

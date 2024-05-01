@@ -21,7 +21,7 @@ export default async function Home() {
   }
 
   return (
-    <main className="">
+    <main className="flex-grow">
       <section className="bg-background mb-8">
         <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
           <a
