@@ -49,6 +49,7 @@ export async function getModesCount(): Promise<
 
     return postModeStats;
   } catch {
+    return [];
     throw new Error("Error in getModesCount");
   }
 }
