@@ -9,7 +9,7 @@ export default function DashboardLayout({
 }>) {
   return (
     <div
-      className="max-w-5xl m-auto px-4 flex flex-col flex-grow   "
+      className="max-w-5xl w-full m-auto px-4 flex flex-col flex-grow   "
       // style={{ height: `calc(100vh - ${HEADER_HEIGHT}px)` }}
     >
       <nav className="flex items-center gap-4">

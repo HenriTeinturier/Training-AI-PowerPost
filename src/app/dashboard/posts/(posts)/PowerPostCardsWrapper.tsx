@@ -42,7 +42,9 @@ const PowerPostCardsWrapper = ({
     <div className="flex flex-wrap gap-4 justify-center">
       <div className="flex flex-wrap gap-4 justify-center">
         {data ? (
-          <PowerpostCards posts={data.posts} totalPage={data.count} />
+          <>
+            <PowerpostCards posts={data.posts} totalPage={data.count} />
+          </>
         ) : (
           <>
             {Array.from({ length: 4 }).map((_, index) => (

@@ -43,54 +43,56 @@ const PostDetail = async ({
   }
 
   return (
-    <Layout>
-      <LayoutHeader>
-        <div className="p-8 h-96 flex flex-col items-center justify-center text-white text-center w-full rounded-md gap-4 relative">
-          <img
-            src={post?.coverUrl || ""}
-            alt="Background"
-            className="absolute inset-0 w-full h-full object-cover rounded-md"
-          />
-          <div className="z-10 relative">
-            <Alert className="bg-gray-300/80 dark:bg-gray-900/80">
-              <div>
-                <AlertTitle className="font-bold text-left text-2xl">
-                  {post?.title}
+    <>
+      <Layout>
+        <LayoutHeader>
+          <div className="p-8 h-96 flex flex-col items-center justify-center text-white text-center w-full rounded-md gap-4 relative">
+            <img
+              src={post?.coverUrl || ""}
+              alt="Background"
+              className="absolute inset-0 w-full h-full object-cover rounded-md"
+            />
+            <div className="z-10 relative">
+              <Alert className="bg-gray-300/80 dark:bg-gray-900/80">
+                <div>
+                  <AlertTitle className="font-bold text-left text-2xl">
+                    {post?.title}
+                  </AlertTitle>
+                </div>
+                <AlertTitle className="text-left ">
+                  This post is a resume of{" "}
+                  <a
+                    className="underline text-primary"
+                    href={post?.source ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {post?.source}
+                  </a>
+                  . All right reserved to the original author.
                 </AlertTitle>
-              </div>
-              <AlertTitle className="text-left ">
-                This post is a resume of{" "}
-                <a
-                  className="underline text-primary"
-                  href={post?.source ?? "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {post?.source}
-                </a>
-                . All right reserved to the original author.
-              </AlertTitle>
-            </Alert>
+              </Alert>
+            </div>
           </div>
-        </div>
-      </LayoutHeader>
-      <LayoutContent>
-        <PostConfig />
-      </LayoutContent>
-      <LayoutContent>
-        <ArticleWrapper>
-          <MDXRemote
-            options={{
-              mdxOptions: {
-                rehypePlugins: [rehypePrism],
-              },
-            }}
-            source={post?.powerPost ?? ""}
-          />
-        </ArticleWrapper>
-      </LayoutContent>
-      <ChatPopover />
-    </Layout>
+        </LayoutHeader>
+        <LayoutContent>
+          <PostConfig />
+        </LayoutContent>
+        <LayoutContent>
+          <ArticleWrapper>
+            <MDXRemote
+              options={{
+                mdxOptions: {
+                  rehypePlugins: [rehypePrism],
+                },
+              }}
+              source={post?.powerPost ?? ""}
+            />
+          </ArticleWrapper>
+        </LayoutContent>
+        <ChatPopover />
+      </Layout>
+    </>
   );
 };
 
