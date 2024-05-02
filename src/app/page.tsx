@@ -12,6 +12,14 @@ import {
 import { auth } from "@/auth/helper";
 import { redirect } from "next/navigation";
 import { CreatePostImg } from "./CreatePostImg";
+import Link from "next/link";
+import SignInButton from "@/components/features/auth/SignInButton";
+import CreateLogo from "@/components/features/layout/CreateLogo";
+import {
+  LayoutSubTitle,
+  LayoutTitle,
+} from "@/components/features/layout/Layout";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export default async function Home() {
   const user = await auth();
@@ -22,11 +30,13 @@ export default async function Home() {
 
   return (
     <main className="flex-grow">
-      <section className="bg-background mb-8">
+      {/* presentation section */}
+      <section className="bg-background ">
         <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-          <a
-            href="#"
-            className="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-muted-foreground  bg-card  hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
+          {/* Link to paiement information */}
+          <Link
+            href="/#payment-section"
+            className="inline-flex justify-between items-center py-1 px-1 pr-4  text-sm text-muted-foreground  bg-card  hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
             role="alert"
           >
             <span className="text-xs bg-primary text-white rounded-full  px-4 py-1.5 mr-3">
@@ -47,39 +57,41 @@ export default async function Home() {
                 clip-rule="evenodd"
               ></path>
             </svg>
-          </a>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-foreground md:text-5xl lg:text-6xl ">
-            Stop wasting time reading too long post
-          </h1>
-          <p className="mb-8 text-lg font-normal text-muted-foreground lg:text-xl sm:px-16 xl:px-48 ">
-            PowerPost is a new way to read post and article in a short time.
-          </p>
-          <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-            <a
-              href="#"
-              className={buttonVariants({ size: "lg", variant: "outline" })}
-            >
-              Learn more
-              <ArrowRight size={16} />
-            </a>
-            <a
-              href="#"
-              className={buttonVariants({ variant: "default", size: "lg" })}
-            >
-              <CircleUserRound size={16} />
-              Signin
-            </a>
+          </Link>
+          {/* Title primary */}
+
+          {/* description */}
+
+          <div className=" items-center justify-center flex flex-col  gap-4  my-8 ">
+            {/* <CreateLogo size={"big"} text={false} /> */}
+            <div className="flex flex-col gap-2 items-center">
+              {/* <LayoutTitle>PowerPost</LayoutTitle> */}
+              <Card>
+                <CardHeader>
+                  <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-foreground md:text-5xl lg:text-6xl ">
+                    Stop wasting time reading.
+                  </h1>
+                </CardHeader>
+                <CardContent>
+                  <LayoutSubTitle>Resume article with AI</LayoutSubTitle>
+                  <p className="mb-8 text-lg font-normal text-muted-foreground lg:text-xl sm:px-16 xl:px-48 ">
+                    PowerPost is a new way to read post and article in a short
+                    time.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
+          {/* logo (ai, stripe, nextjs) wrapper */}
           <div className="px-4 mx-auto text-center md:max-w-screen-md lg:max-w-screen-lg lg:px-36">
+            {/* title logo section */}
             <span className="font-semibold text-gray-400 uppercase">
               BUILT WITH
             </span>
-            <div className="flex flex-wrap justify-center items-center mt-8 text-gray-500 sm:justify-between">
-              <a
-                href="#"
-                className="flex items-center gap-4 w-48  mr-5 mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400 "
-              >
-                <div className="w-10">
+            {/* wrapper logo description */}
+            <div className="flex flex-wrap justify-around items-center mt-4 text-gray-500  ">
+              <div className="flex items-center gap-2   hover:text-gray-800 dark:hover:text-gray-400 mx-2">
+                <div className="md:w-8 w-6">
                   <svg
                     fill="currentColor"
                     viewBox="0 0 24 24"
@@ -91,12 +103,9 @@ export default async function Home() {
                   </svg>
                 </div>
                 <Typography variant={"h2"}>OpenAI</Typography>
-              </a>
-              <a
-                href="#"
-                className="flex items-center gap-4 mr-5 mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400"
-              >
-                <div className="w-10">
+              </div>
+              <div className="flex items-center gap-2 hover:text-gray-800 dark:hover:text-gray-400 mx-2">
+                <div className="md:w-8 w-6">
                   <svg
                     viewBox="0 0 1024 1024"
                     xmlns="http://www.w3.org/2000/svg"
@@ -110,12 +119,9 @@ export default async function Home() {
                   </svg>
                 </div>
                 <Typography variant={"h2"}>Stripe</Typography>
-              </a>
-              <a
-                href="#"
-                className="flex items-center gap-4 mr-5 mb-5 lg:mb-0 hover:text-gray-800 dark:hover:text-gray-400"
-              >
-                <div className="w-10">
+              </div>
+              <div className="flex items-center gap-2 hover:text-gray-800 dark:hover:text-gray-400 mx-2">
+                <div className="md:w-8 w-6">
                   <svg
                     viewBox="0 0 256 256"
                     version="1.1"
@@ -132,12 +138,22 @@ export default async function Home() {
                   </svg>
                 </div>
                 <Typography variant={"h2"}>Nextjs</Typography>
-              </a>
+              </div>
+            </div>
+          </div>
+          {/* Start for Free section */}
+          <div className="pt-8 px-4 mx-auto max-w-screen-xl  lg:px-6">
+            <div className="mx-auto max-w-screen-sm text-center">
+              <p className="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">
+              ⚡ 5 PowerPosts provided. No credit card required ⚡
+              </p>
+              <SignInButton />
             </div>
           </div>
         </div>
       </section>
-      <section className="bg-background">
+      {/* exemple section */}
+      <section className="bg-muted">
         <div className="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
           <div className="w-full rounded-xl border border-primary">
             <CreatePostImg />
@@ -150,13 +166,11 @@ export default async function Home() {
               Enhancing Your Reading Experience Online. Explore More, Read More:
               Your Gateway to Online Articles
             </p>
-            <a href="#" className={buttonVariants({ size: "lg" })}>
-              <CircleUserRound size={16} />
-              Signin
-            </a>
+            <SignInButton />
           </div>
         </div>
       </section>
+      {/* cards options section */}
       <section className="bg-background">
         <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
           <div className="max-w-screen-md mb-8 lg:mb-16">
@@ -265,24 +279,9 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <section className="bg-background">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-          <div className="mx-auto max-w-screen-sm text-center">
-            <h2 className="mb-4 text-4xl tracking-tight font-extrabold leading-tight text-foreground">
-              Start for free.
-            </h2>
-            <p className="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">
-              5 PowerPosts provided. No credit card required
-            </p>
 
-            <a href="#" className={buttonVariants({ size: "lg" })}>
-              <CircleUserRound size={16} />
-              Signin
-            </a>
-          </div>
-        </div>
-      </section>
-      <section className="bg-background">
+      {/* Payment section */}
+      <section className="bg-muted" id="payment-section">
         <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
           <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-foreground">
@@ -317,10 +316,7 @@ export default async function Home() {
                   <span>openai GPT 3.5</span>
                 </li>
               </ul>
-              <a href="#" className={buttonVariants({ size: "lg" })}>
-                <CircleUserRound size={16} />
-                Signin
-              </a>
+              <SignInButton />
             </div>
             {/* <!-- Pricing Card --> */}
             <div className="flex flex-col p-6 mx-auto max-w-md w-full text-center bg-card rounded-lg border border-bg-card shadow  xl:p-8 t">
@@ -350,10 +346,7 @@ export default async function Home() {
                   <span>AI Chat for every post</span>
                 </li>
               </ul>
-              <a href="#" className={buttonVariants({ size: "lg" })}>
-                <CircleUserRound size={16} />
-                Signin
-              </a>
+              <SignInButton />
             </div>
           </div>
         </div>

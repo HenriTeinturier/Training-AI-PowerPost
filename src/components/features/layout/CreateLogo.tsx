@@ -4,8 +4,15 @@ import Image from "next/image";
 import powerpostLogoSvg from "../../../../public/assets/logos/powerpost-logo.svg";
 import powerpostLogoSvgDark from "../../../../public/assets/logos/powerpost-logo-dark.svg";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
-const CreateLogo = () => {
+const CreateLogo = ({
+  size = "small",
+  text = true,
+}: {
+  size?: "small" | "big";
+  text?: boolean;
+}) => {
   const { theme, resolvedTheme } = useTheme();
   const [logoSrc, setLogoSrc] = useState(powerpostLogoSvg);
 
@@ -18,11 +25,16 @@ const CreateLogo = () => {
   }, [theme, resolvedTheme]);
 
   return (
-    <div className="flex flex-row  items-start justify-start ">
-      <div className="h-6 w-4 block Slot">
-        <Image src={logoSrc} alt="PowerPost Logo" />
+    <div
+      className={cn(
+        "flex flex-row   ",
+        !text ? "justify-center items-center" : "justify-start  items-start"
+      )}
+    >
+      <div className={cn(" ", size === "small" ? "h-6 w-4" : "w-32")}>
+        <Image src={logoSrc} alt="PowerPost Logo" height={245} width={374} />
       </div>
-      <div className="font-bold">owerPost</div>
+      {text && <div className="font-bold">owerPost</div>}
     </div>
   );
 };

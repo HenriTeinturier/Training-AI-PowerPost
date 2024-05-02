@@ -37,6 +37,18 @@ export const LayoutTitle = (props: ComponentPropsWithoutRef<"h1">) => {
   );
 };
 
+export const LayoutSubTitle = (props: ComponentPropsWithoutRef<"h2">) => {
+  return (
+    <h1
+      {...props}
+      className={cn(
+        " text-xl text-primary tracking-tight lg:text-xl",
+        props.className
+      )}
+    />
+  );
+};
+
 export const LayoutSmall = (props: ComponentPropsWithoutRef<"div">) => {
   return <div {...props} className={cn(props.className)} />;
 };
