@@ -3,7 +3,7 @@ import { Layout } from "@/components/features/layout/Layout";
 
 export default function Loading() {
   return (
-    <Layout className="flex flex-col items-start">
+    <Layout className="flex flex-col items-start w-full">
       <Skeleton className="h-96 w-full rounded-md mb-4" />
       <Skeleton className="h-[30px] w-full mb-4" />
       <div className="w-full flex justify-center">

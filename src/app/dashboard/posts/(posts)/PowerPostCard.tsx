@@ -14,7 +14,7 @@ export type PowerPostCardProps = {
 
 export const PowerPostCardsSkeleton = () => {
   return (
-    <div className="max-w-sm bg-card border border-border rounded-lg shadow flex flex-col justify-between">
+    <div className="max-w-sm bg-card border border-border rounded-lg shadow flex flex-col justify-between min-h-[390px]">
       <div>
         <div className="rounded-t-lg overflow-hidden max-h-52 min-h-52 bg-cover">
           <Skeleton className="h-[208px] w-[400px] rounded-xl" />
@@ -39,11 +39,11 @@ export const PowerPostCard = ({ post }: PowerPostCardProps) => {
   const domain = new URL(post.source).hostname;
   return (
     <div
-      className="max-w-sm bg-card border border-border rounded-lg shadow flex flex-col justify-between relative"
+      className="max-w-sm bg-card border border-border rounded-lg shadow flex flex-col justify-between relative min-h-[390px]"
       key={post.mode + post.id}
     >
       <div>
-        <div className="rounded-t-lg overflow-hidden max-h-52 min-h-52 bg-cover ">
+        <div className="rounded-t-lg overflow-hidden max-h-52 min-h-52 bg-cover  ">
           <Badge variant="secondary" className="absolute right-2  top-2 ">
             {post.mode}
           </Badge>
