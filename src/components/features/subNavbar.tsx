@@ -7,7 +7,7 @@ const SubNavbar = () => {
   const pathName = usePathname();
 
   return (
-    <nav className="flex items-center gap-4 flex-wrap ">
+    <nav className="flex items-center gap-4 flex-wrap  ">
       <Link
         href="/dashboard/"
         className={cn(
@@ -36,7 +36,7 @@ const SubNavbar = () => {
             "bg-accent-foreground text-muted   hover:bg-accent-foreground"
         )}
       >
-        Create Powerpost
+        Create{" "}
       </Link>
       <Link
         href="/dashboard/credits"
