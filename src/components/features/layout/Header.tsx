@@ -12,10 +12,10 @@ export const Header = () => {
             <Link href="/">
               <CreateLogo />
             </Link>
-            <Link href="/dashboard/posts">posts</Link>
+            {/* <Link href="/dashboard/posts">posts</Link>
             <Link href="/dashboard/credits">credits</Link>
             <Link href="/dashboard/posts/new">posts/new</Link>
-            <Link href="/dashboard">dashboard</Link>
+            <Link href="/dashboard">dashboard</Link> */}
           </div>
 
           <div className="flex flex-1 items-center justify-end space-x-4">

@@ -14,8 +14,8 @@ export const ResumePostGraph = ({
   postModeStats: { name: string; total: number }[];
 }) => {
   return (
-    <div className="">
-      <ResponsiveContainer width={400} height={220}>
+    <div className="h-full w-full    md:h-[200px]">
+      <ResponsiveContainer minHeight={200}>
         <BarChart data={postModeStats}>
           <Bar
             dataKey="total"

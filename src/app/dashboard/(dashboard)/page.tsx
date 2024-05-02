@@ -179,7 +179,7 @@ export default async function Dashboard({
                     </div>
                   }
                 >
-                  <div className=" flex flex-col flex-grow justify-center items-center space-x-4 h-28 mt-6 ">
+                  <div className=" flex flex-col flex-grow justify-center items-center space-x-4  mt-6 ">
                     {/* <div className="h-full"> */}
                     <PostGraph />
                     {/* </div> */}
