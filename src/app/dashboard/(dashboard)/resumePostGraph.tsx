@@ -1,89 +1,65 @@
 "use client";
+import {
+  Bar,
+  BarChart,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+} from "recharts";
 
-// import { Bar } from "react-chartjs-2";
+export const ResumePostGraph = ({
+  postModeStats,
+}: {
+  postModeStats: { name: string; total: number }[];
+}) => {
+  return (
+    <div className="">
+      <ResponsiveContainer width={400} height={220}>
+        <BarChart data={postModeStats}>
+          <Bar
+            dataKey="total"
+            style={
+              {
+                fill: "hsl(var(--primary))",
+                opacity: 0.9,
+              } as React.CSSProperties
+            }
+          />
+          <Tooltip />
+          <XAxis
+            dataKey="name"
+            angle={280}
+            textAnchor="end"
+            height={60}
+            style={{
+              fontSize: "12px",
+              wordWrap: "break-word",
+              // height: "5px",
+            }}
+            interval={0}
+            tickFormatter={(value) =>
+              `${value.length > 6 ? value.substring(0, 6) : value}`
+            } // Tronque les textes longs
+            tickLine={false}
+            tickMargin={10}
+          />
+          <Legend
+            verticalAlign="top"
+            iconSize={0}
+            iconType="star"
+            formatter={renderLegend}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
 
-// import {
-//   Chart as ChartJS,
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend,
-//   ChartOptions,
-// } from "chart.js";
-import { PostMode } from "@prisma/client";
-
-// ChartJS.register(
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend
-// );
-
-// export const ResumePostGraph = ({
-//   totalPowerpostByMode,
-// }: {
-//   totalPowerpostByMode: Record<PostMode, number>;
-// }) => {
-//   const options: ChartOptions<"bar"> = {
-//     scales: {
-//       x: {
-//         grid: {
-//           display: false,
-//         },
-//       },
-//       y: {
-//         grid: {
-//           display: false,
-//         },
-//       },
-//     },
-
-//     plugins: {
-//       tooltip: {
-//         callbacks: {
-//           title: function (tooltipItems) {
-//             return tooltipItems[0].label;
-//           },
-//           label: function (tooltipItem) {
-//             return tooltipItem.formattedValue;
-//           },
-//         },
-//         displayColors: false,
-//         usePointStyle: true,
-//       },
-//     },
-//   };
-//   const postModeKeys = Object.keys(PostMode).filter((key) =>
-//     isNaN(Number(key))
-//   );
-//   const linechartData = {
-//     labels: postModeKeys,
-//     datasets: [
-//       {
-//         label: "Powerpost Type",
-//         data: [
-//           totalPowerpostByMode.SHORT,
-//           totalPowerpostByMode.TWEET,
-//           totalPowerpostByMode.THREAD,
-//           totalPowerpostByMode.BULLET_POINT,
-//           totalPowerpostByMode.TOP3,
-//           totalPowerpostByMode.MAIN_POINTS,
-//           totalPowerpostByMode.CODE,
-//         ],
-//         fill: false,
-//         backgroundColor: ["hsl(186 65% 42%)"],
-//         // borderColor: "red",
-//         borderWidth: 0,
-//       },
-//     ],
-//   };
-//   return <Bar options={options} data={linechartData} />;
-// };
-
-export const ResumePostGraph = () => {
-  return <div>test</div>;
+const renderLegend = () => {
+  return (
+    <span style={{ color: `hsl(var(--primary-muted))` }}>
+      {"Total PowerPost by Type"}
+    </span>
+  );
 };

@@ -1,52 +1,12 @@
-// import { prisma } from "@/prisma";
-// // import { ResumePostGraph } from "./resumePostGraph";
-// import { PostMode } from "@prisma/client";
+import { prisma } from "@/prisma";
+import { PostMode } from "@prisma/client";
+import { ResumePostGraph } from "./resumePostGraph";
+import { getModesCount } from "@/data/datasFunction";
 
-// async function countPostsByModeIncludingZeros() {
-//   // Initialisation d'un objet pour compter les modes avec des valeurs initiales à 0
-//   const modeCounts: Record<PostMode, number> = Object.values(PostMode).reduce(
-//     (acc, mode) => {
-//       acc[mode] = 0;
-//       return acc;
-//     },
-//     {} as Record<PostMode, number>
-//   );
+const PostGraph = async () => {
+  const postModeStats = await getModesCount();
 
-//   // Requête pour obtenir les comptes actuels depuis la base de données
-//   const result = await prisma.post.groupBy({
-//     by: ["mode"],
-//     _count: {
-//       mode: true,
-//     },
-//   });
-
-//   // Mise à jour des comptes avec les données de la base de données
-//   result.forEach((item) => {
-//     if (item.mode in modeCounts) {
-//       modeCounts[item.mode] = item._count.mode;
-//     }
-//   });
-
-//   return modeCounts;
-// }
-
-// const PostGraph = async () => {
-//   return <div>test</div>;
-//   // const totalPowerpostByMode = await countPostsByModeIncludingZeros()
-//   //   .catch((e) => {
-//   //     throw e;
-//   //   })
-//   //   .finally(async () => {
-//   //     await prisma.$disconnect();
-//   //   });
-
-//   // return <ResumePostGraph totalPowerpostByMode={totalPowerpostByMode} />;
-// };
-
-// export default PostGraph;
-
-export const PostGraph = () => {
-  return <div>test</div>;
+  return <ResumePostGraph postModeStats={postModeStats} />;
 };
 
 export default PostGraph;

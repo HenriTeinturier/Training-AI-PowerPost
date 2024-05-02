@@ -156,7 +156,7 @@ export default async function Dashboard({
               <CardHeader>
                 <CardTitle>Statistics</CardTitle>
               </CardHeader>
-              <CardContent className="flex-grow flex flex-col ">
+              <CardContent className="flex-grow flex flex-col  ">
                 <Suspense
                   fallback={
                     <div className=" flex items-center space-x-4 mb-6">
