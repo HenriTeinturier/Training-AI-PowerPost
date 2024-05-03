@@ -93,12 +93,12 @@ export async function GET(request: NextRequest) {
   } catch (e) {
     console.log("error in /api/routes", e);
     return { posts: [], count: 1 };
-    if (e instanceof ZodError) {
-      const issues = e.issues;
-      const message = issues.map((issue) => issue.message).join(", ");
-      console.log("error zod", message);
-      return NextResponse.json({ error: "not found" }, { status: 404 });
-    }
+    // if (e instanceof ZodError) {
+    //   const issues = e.issues;
+    //   const message = issues.map((issue) => issue.message).join(", ");
+    //   console.log("error zod", message);
+    //   return NextResponse.json({ error: "not found" }, { status: 404 });
+    // }
     return NextResponse.json(
       { error: "error in response Unhandled error" },
       { status: 400 }
