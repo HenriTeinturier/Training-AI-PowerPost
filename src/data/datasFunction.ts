@@ -7,7 +7,7 @@ import { prisma } from "@/prisma";
 
 export async function getPosts(
   searchParams: PostsFilter
-): Promise<{ posts: Post[]; count: number }> {
+): Promise<{ posts: Post[]; count: number } | null> {
   "use server";
   const postsResponse = await fetch(
     `${getServerUrl()}/api/posts?${new URLSearchParams(searchParams)}`,
@@ -49,7 +49,7 @@ export async function getModesCount(): Promise<
 
     return postModeStats;
   } catch {
-    return [];
+    return null;
     throw new Error("Error in getModesCount");
   }
 }

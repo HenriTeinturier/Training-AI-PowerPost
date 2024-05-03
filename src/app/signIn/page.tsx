@@ -58,7 +58,7 @@ const SignIn = async () => {
             </div>
           </div>
         </div>
-        <div className="bg-muted items-center justify-center flex flex-col  lg:w-1/2 gap-4 min-h-[600px] ">
+        <div className="bg-muted items-center justify-center flex flex-col  lg:w-1/2 gap-4 min-h-[400px] ">
           <CreateLogo size={"big"} text={false} />
           <div className="flex flex-col gap-2 items-center">
             <LayoutTitle>PowerPost</LayoutTitle>

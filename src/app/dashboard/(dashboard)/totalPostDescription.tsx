@@ -2,7 +2,7 @@ import { prisma } from "@/prisma";
 import { BellRing } from "lucide-react";
 
 const TotalPostDescription = async () => {
-  const totalPost = await prisma.post.count();
+  const totalPost = (await prisma.post.count()) || 0;
 
   return (
     <>

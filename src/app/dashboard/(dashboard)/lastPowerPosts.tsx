@@ -22,6 +22,11 @@ export const LastPowerPosts = async ({
   userId: string;
   displayType: "table" | "card";
 }) => {
+  if (!userId) {
+    console.log("no userId in LastPowerPosts");
+    return null;
+  }
+
   const LastPowerPostData: PostShort[] = await prisma.post.findMany({
     where: {
       userId: userId,
