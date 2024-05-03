@@ -3,19 +3,20 @@
 import React from "react";
 import { Button, ButtonProps } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { ArrowLeftCircle } from "lucide-react";
+import { ArrowLeft, ArrowLeftCircle } from "lucide-react";
 
 const BackButton = (props: ButtonProps) => {
   const router = useRouter();
 
   return (
     <Button
-      variant="ghost"
-      size={"icon"}
-      className="hidden md:flex"
+      {...props}
+      variant="outline"
+      // size={"icon"}
       onClick={() => router.back()}
     >
-      <ArrowLeftCircle />
+      <ArrowLeft size={16} />
+      Back
       {props.children}
     </Button>
   );

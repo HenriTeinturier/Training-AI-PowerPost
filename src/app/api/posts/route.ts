@@ -4,7 +4,6 @@ import {
   PostsFilter,
   PostsFilterSchema,
   PostsFilterSchemaType,
-  postsArraySchema,
   postsShortArraySchema,
 } from "@/data/datasFunctionUtils";
 import { prisma } from "@/prisma";

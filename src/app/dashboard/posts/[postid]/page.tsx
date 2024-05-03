@@ -14,6 +14,9 @@ import ChatPopover from "./ChatPopover";
 import { requiredAuth } from "@/auth/helper";
 import { notFound, redirect } from "next/navigation";
 import BackButton from "@/components/features/BackButton";
+import { SubmitButton } from "@/components/features/SubmitButton";
+import { deletePost } from "@/lib/actions";
+import { Button } from "@/components/ui/button";
 
 const PostDetail = async ({
   params,
@@ -80,7 +83,13 @@ const PostDetail = async ({
         </LayoutContent>
         <LayoutContent>
           <ArticleWrapper>
-            <BackButton />
+            <div className="flex gap-4">
+              <BackButton className="hidden md:flex gap-2" />
+              <Button variant="outline" className="hidden md:flex ">
+                Powerposts
+              </Button>
+            </div>
+
             <MDXRemote
               options={{
                 mdxOptions: {
@@ -89,6 +98,16 @@ const PostDetail = async ({
               }}
               source={post?.powerPost ?? ""}
             />
+            <form
+              action={async () => {
+                "use server";
+                const postDeleted = await deletePost(params.postid);
+              }}
+            >
+              <SubmitButton type="submit" variant="destructive" className="">
+                Delete Post
+              </SubmitButton>
+            </form>
           </ArticleWrapper>
         </LayoutContent>
         <ChatPopover />
