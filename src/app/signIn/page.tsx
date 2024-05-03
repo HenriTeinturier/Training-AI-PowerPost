@@ -17,7 +17,7 @@ const SignIn = async () => {
   }
   return (
     <div className="flex flex-col flex-grow">
-      <div className="flex flex-col  lg:flex-row min-h-[600px] xl:min-h-[800px] w-full">
+      <div className="flex flex-col  lg:flex-row min-h-[600px] xl:min-h-[800px] h-full flex-grow  w-full">
         <div className="flex items-center justify-center py-12 flex-grow lg:flex-grow-0 lg:w-1/2">
           <div className="mx-auto flex flex-col gap-6 w-[350px]">
             <div className="flex flex-col gap-2 text-center">
@@ -58,7 +58,7 @@ const SignIn = async () => {
             </div>
           </div>
         </div>
-        <div className="bg-muted items-center justify-center flex flex-col  lg:w-1/2 gap-4 min-h-[400px] ">
+        <div className="bg-muted items-center justify-center flex flex-col  lg:w-1/2 gap-4 min-h-[400px]  ">
           <CreateLogo size={"big"} text={false} />
           <div className="flex flex-col gap-2 items-center">
             <LayoutTitle>PowerPost</LayoutTitle>
