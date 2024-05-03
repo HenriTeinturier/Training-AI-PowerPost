@@ -84,10 +84,21 @@ const PostDetail = async ({
         <LayoutContent>
           <ArticleWrapper>
             <div className="flex gap-4">
-              <BackButton className="hidden md:flex gap-2" />
-              <Button variant="outline" className="hidden md:flex ">
-                Powerposts
-              </Button>
+              <BackButton className="hidden md:flex gap-2 " />
+              <form
+                action={async () => {
+                  "use server";
+                  redirect("/dashboard/posts");
+                }}
+              >
+                <Button
+                  type="submit"
+                  variant="outline"
+                  className="hidden md:flex "
+                >
+                  Powerposts
+                </Button>
+              </form>
             </div>
 
             <MDXRemote
