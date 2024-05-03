@@ -92,7 +92,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ posts, count: totalPages });
   } catch (e) {
     console.log("error in /api/routes", e);
-    return { posts: [], count: 1 };
+    // return { posts: [], count: 1 };
     // if (e instanceof ZodError) {
     //   const issues = e.issues;
     //   const message = issues.map((issue) => issue.message).join(", ");
