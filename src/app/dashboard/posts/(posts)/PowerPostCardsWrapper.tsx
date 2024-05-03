@@ -29,7 +29,8 @@ const PowerPostCardsWrapper = ({
   });
 
   if (isError) {
-    redirect("/");
+    throw new Error("Error in PowerPostCardsWrapper");
+    // redirect("/");
   }
 
   useEffect(() => {
