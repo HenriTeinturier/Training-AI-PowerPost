@@ -52,7 +52,10 @@ const PricingSection = async ({ searchParams }: PricingSectionProps) => {
                 </span>
               </div>
               {/* <!-- List --> */}
-              <ul role="list" className="mb-8 space-y-4 text-left">
+              <ul
+                role="list"
+                className="mb-8 space-y-4 text-left  flex flex-col flex-grow"
+              >
                 <li className="flex items-center space-x-3">
                   <Check className="text-green-500" size={16} />
 
@@ -122,7 +125,10 @@ const PricingSection = async ({ searchParams }: PricingSectionProps) => {
                 <span className="text-gray-500 dark:text-gray-400">/month</span>
               </div>
               {/* <!-- List --> */}
-              <ul role="list" className="mb-8 space-y-4 text-left">
+              <ul
+                role="list"
+                className="mb-8 space-y-4 text-left  flex flex-col flex-grow"
+              >
                 <li className="flex items-center space-x-3">
                   <Check className="text-green-500" size={16} />
 

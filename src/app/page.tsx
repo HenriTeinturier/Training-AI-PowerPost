@@ -145,7 +145,7 @@ export default async function Home() {
           <div className="pt-8 px-4 mx-auto max-w-screen-xl  lg:px-6">
             <div className="mx-auto max-w-screen-sm text-center">
               <p className="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">
-              ⚡ 5 PowerPosts provided. No credit card required ⚡
+                ⚡ 5 PowerPosts provided. No credit card required ⚡
               </p>
               <SignInButton />
             </div>
@@ -291,18 +291,22 @@ export default async function Home() {
               We use a simple token system to pay for your usage.
             </p>
           </div>
+
           <div className="flex max-lg:flex-col gap-10">
             {/* <!-- Pricing Card --> */}
             <div className="flex flex-col p-6 mx-auto max-w-md w-full text-center bg-card rounded-lg border border-bg-card shadow  xl:p-8 ">
               <h3 className="mb-4 text-2xl font-semibold">Free</h3>
               <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-                Only 5 tokens to start with, no credit card required.
+                5 tokens to start with, no credit card required.
               </p>
               <div className="flex justify-center items-baseline my-8">
                 <span className="mr-2 text-5xl font-extrabold">$0</span>
               </div>
               {/* <!-- List --> */}
-              <ul role="list" className="mb-8 space-y-4 text-left">
+              <ul
+                role="list"
+                className="mb-8 space-y-4 text-left  flex flex-col flex-grow"
+              >
                 <li className="flex items-center space-x-3">
                   <Check className="text-green-500" size={16} />
 
@@ -319,6 +323,35 @@ export default async function Home() {
               <SignInButton />
             </div>
             {/* <!-- Pricing Card --> */}
+            <div className="flex flex-col p-6 mx-auto max-w-md w-full text-center bg-card rounded-lg border border-bg-card shadow  xl:p-8 ">
+              <h3 className="mb-4 text-2xl font-semibold">Free</h3>
+              <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
+                Add 15 Powerpost to your account
+              </p>
+              <div className="flex justify-center items-baseline my-8">
+                <span className="mr-2 text-5xl font-extrabold">$0</span>
+              </div>
+              {/* <!-- List --> */}
+              <ul
+                role="list"
+                className="mb-8 space-y-4 text-left flex flex-col flex-grow"
+              >
+                <li className="flex items-center space-x-3">
+                  <Check className="text-green-500" size={16} />
+
+                  <span>15 Powerpost</span>
+                </li>
+                {/* <!-- List --> */}
+
+                <li className="flex items-center space-x-3">
+                  <Check className="text-green-500" size={16} />
+
+                  <span>openai GPT 4</span>
+                </li>
+              </ul>
+              <SignInButton />
+            </div>
+            {/* <!-- Pricing Card --> */}
             <div className="flex flex-col p-6 mx-auto max-w-md w-full text-center bg-card rounded-lg border border-bg-card shadow  xl:p-8 t">
               <h3 className="mb-4 text-2xl font-semibold">Premium</h3>
               <p className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
@@ -329,7 +362,10 @@ export default async function Home() {
                 <span className="text-gray-500 dark:text-gray-400">/month</span>
               </div>
               {/* <!-- List --> */}
-              <ul role="list" className="mb-8 space-y-4 text-left">
+              <ul
+                role="list"
+                className="mb-8 space-y-4 text-left  flex flex-col flex-grow"
+              >
                 <li className="flex items-center space-x-3">
                   <Check className="text-green-500" size={16} />
 
