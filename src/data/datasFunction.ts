@@ -29,7 +29,7 @@ export async function getPosts(
 }
 
 export async function getModesCount(): Promise<
-  { name: string; total: number }[]
+  { name: string; total: number }[] | null
 > {
   "use server";
   try {
@@ -48,8 +48,9 @@ export async function getModesCount(): Promise<
     }));
 
     return postModeStats;
-  } catch {
-    // return null;
+  } catch (e) {
+    console.log("error in getModesCOunt", e);
+    return null;
     throw new Error("Error in getModesCount");
   }
 }
