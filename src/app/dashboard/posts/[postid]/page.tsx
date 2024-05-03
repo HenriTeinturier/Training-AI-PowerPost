@@ -12,7 +12,8 @@ import rehypePrism from "rehype-prism-plus";
 import "./code-theme.scss";
 import ChatPopover from "./ChatPopover";
 import { requiredAuth } from "@/auth/helper";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import BackButton from "@/components/features/BackButton";
 
 const PostDetail = async ({
   params,
@@ -37,9 +38,8 @@ const PostDetail = async ({
       source: true,
     },
   });
-
   if (!post) {
-    <div>Post not found</div>;
+    notFound();
   }
 
   return (
@@ -80,6 +80,7 @@ const PostDetail = async ({
         </LayoutContent>
         <LayoutContent>
           <ArticleWrapper>
+            <BackButton />
             <MDXRemote
               options={{
                 mdxOptions: {
