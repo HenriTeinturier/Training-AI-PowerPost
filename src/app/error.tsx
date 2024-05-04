@@ -1,8 +1,13 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 // import { useRouter } from "next/router";
 import { useEffect } from "react";
+import errorImage from "../../public/assets/images/error.svg";
+import { Typography } from "@/components/ui/typography";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Error({
   error,
@@ -18,21 +23,34 @@ export default function Error({
   const router = useRouter();
 
   return (
-    <main className="flex h-full flex-col items-center justify-center">
-      <h2 className="text-center">Something went wrong!</h2>
-      <h3>{error.message} </h3>
-      <button
-        type={"button"}
-        className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
-        onClick={
-          () => {
-            router.push("/dashboard");
+    <div className="flex flex-col items-center gap-4 pt-8 h-full w-full">
+      <Image
+        src={errorImage}
+        width={500}
+        height={500}
+        alt="error"
+        className="mb-8"
+      />
+      <Typography variant="h2" className="text-primary">
+        Something went wrong
+      </Typography>
+      <div className="flex gap-4 justify-center">
+        <Button
+          variant="outline"
+          type={"button"}
+          onClick={
+            () => {
+              router.push("/");
+            }
+            // () => reset()
           }
-          // () => reset()
-        }
-      >
-        Back to Home
-      </button>
-    </main>
+        >
+          Back to Home
+        </Button>
+        <Button type={"button"} variant="outline" onClick={() => reset()}>
+          Retry
+        </Button>
+      </div>
+    </div>
   );
 }
