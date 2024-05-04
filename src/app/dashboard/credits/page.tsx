@@ -38,7 +38,7 @@ const PricingSection = async ({ searchParams }: PricingSectionProps) => {
           </LayoutDescription>
         </LayoutHeader>
         <LayoutContent>
-          <div className="flex max-lg:flex-col gap-10 mt-4">
+          <div className="flex flex-col lg:flex-row  gap-4 lg:gap-10 mt-4">
             {/* <!-- Pricing Card PACK --> */}
             <div className="flex flex-col p-6 mx-auto max-w-md w-full text-center bg-card rounded-lg border border-bg-card shadow  xl:p-8 t">
               <h3 className="mb-4 text-2xl font-semibold">Pack</h3>

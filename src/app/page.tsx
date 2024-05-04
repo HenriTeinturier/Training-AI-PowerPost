@@ -232,7 +232,7 @@ export default async function Home() {
 
       {/* Payment section */}
       <section className="bg-muted" id="payment-section">
-        <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+        <div className="py-8 px-4 lg:py-16 lg:px-6 mx-auto max-w-screen-xl">
           <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
             <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-foreground">
               Pay what you use
@@ -242,7 +242,7 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="flex max-lg:flex-col gap-10">
+          <div className="flex flex-col lg:flex-row  gap-4 lg:gap-10">
             {/* <!-- Pricing Card --> */}
             <div className="flex flex-col p-6 mx-auto max-w-md w-full text-center bg-card rounded-lg border border-bg-card shadow  xl:p-8 ">
               <h3 className="mb-4 text-2xl font-semibold">Free</h3>

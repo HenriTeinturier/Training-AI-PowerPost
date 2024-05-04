@@ -74,7 +74,7 @@ const FilterPostsToggle = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="flex  gap-2 justify-between p-4 w-[810px]  max-[816px]:w-fit">
+      <div className="flex sm:flex-row flex-col  gap-2 items-start sm:justify-between  p-4 w-[810px]  max-[816px]:w-fit">
         <div className="flex gap-2 ">
           <Select
             key={filterPosts.mode}
@@ -121,7 +121,7 @@ const FilterPostsToggle = () => {
             </Button>
           )}
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-row-reverse ">
           <Button
             variant="ghost"
             size={"icon"}
