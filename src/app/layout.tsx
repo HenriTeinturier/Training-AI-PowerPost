@@ -11,8 +11,15 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Training PowerPost",
-  description: "Generate a post from a URL with AI",
+  title: "PowerPost",
+  description:
+    "Generate a post from a URL with AI. Demonstrate my expertise and capability to create SAAS products. You can see my portfolio on www.henriteinturier.com or my linkedin on https://www.linkedin.com/in/henri-teinturier/",
+  metadataBase: new URL("https://www.powerpost.henriteinturier.com"),
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://www.powerpost.henriteinturier.com",
+  },
 };
 
 export default function RootLayout({
