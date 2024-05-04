@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import createPostDark from "../../public/assets/images/createPostDark.png";
-import createPostLight from "../../public/assets/images/createPostLight.png";
+import createPostDark from "../../public/assets/images/createPostDarkComp.png";
+import createPostLight from "../../public/assets/images/createPostLightComp.png";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 
