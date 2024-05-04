@@ -18,7 +18,7 @@ const SignIn = async () => {
   return (
     <div className="flex flex-col flex-grow">
       <div className="flex flex-col  lg:flex-row min-h-[600px] xl:min-h-[800px] h-full flex-grow  w-full">
-        <div className="flex items-center justify-center py-12 flex-grow lg:flex-grow-0 lg:w-1/2">
+        <div className="flex items-center justify-center py-8 tall:py-12 flex-grow lg:flex-grow-0 lg:w-1/2">
           <div className="mx-auto flex flex-col gap-6 w-[350px]">
             <div className="flex flex-col gap-2 text-center">
               <h1 className="text-3xl font-bold">Login</h1>

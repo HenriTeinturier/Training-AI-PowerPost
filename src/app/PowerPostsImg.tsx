@@ -19,7 +19,7 @@ export const PowerpostImg = () => {
   }, [theme, resolvedTheme]);
 
   return (
-    <div className="flex justify-center  md:w-[700px]    bg-muted rounded-xl ">
+    <div className="flex justify-center  md:w-[700px] tall:w-[700px] w-[250px]    bg-muted rounded-xl ">
       <Image
         src={imgSrc}
         // width={500}

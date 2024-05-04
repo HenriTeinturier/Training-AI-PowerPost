@@ -32,7 +32,7 @@ export default async function Home() {
   return (
     <main className="flex-grow">
       {/* presentation section */}
-      <section className="bg-background ">
+      <section className="bg-background">
         <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
           <Typography variant={"h1"} className="text-primary">
             Resume article with AI
@@ -41,7 +41,7 @@ export default async function Home() {
             PowerPost is a new way to read post and article in a short time.
           </Typography>
 
-          <div className="w-full flex justify-center mb-16">
+          <div className="w-full flex justify-center mb-12">
             <PowerpostImg />
           </div>
 
@@ -58,7 +58,7 @@ export default async function Home() {
               BUILT WITH
             </span>
             {/* wrapper logo description */}
-            <div className="flex flex-wrap justify-center gap-8 items-center  text-gray-500  ">
+            <div className="flex flex-wrap justify-center md:gap-8 sm-4 gap-2 items-center  text-gray-500  ">
               <div className="flex items-center gap-2   hover:text-gray-800 dark:hover:text-gray-400 mx-2">
                 <div className="md:w-8 w-6">
                   <svg

@@ -31,8 +31,21 @@ const CreateLogo = ({
         !text ? "justify-center items-center" : "justify-start  items-start"
       )}
     >
-      <div className={cn(" ", size === "small" ? "h-6 w-4" : "w-32")}>
-        <Image src={logoSrc} alt="PowerPost Logo" height={245} width={374} />
+      <div
+        className={cn(
+          " ",
+          size === "small" ? "h-6 w-4" : "w-32 max-w-[30px]  tall:max-w-none "
+        )}
+      >
+        <Image
+          src={logoSrc}
+          alt="PowerPost Logo"
+          height={245}
+          width={374}
+          // responsive={true}
+          // cover={true}
+          // fill={true}
+        />
       </div>
       {text && <div className="font-bold">owerPost</div>}
     </div>
