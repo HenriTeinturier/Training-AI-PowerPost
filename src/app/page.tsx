@@ -1,25 +1,9 @@
-import { buttonVariants } from "@/components/ui/button";
 import { Typography } from "@/components/ui/typography";
-import {
-  ArrowRight,
-  Brain,
-  Check,
-  CircleUserRound,
-  LayoutList,
-  Star,
-  Twitter,
-} from "lucide-react";
+import { Brain, Check, LayoutList, Star, Twitter } from "lucide-react";
 import { auth } from "@/auth/helper";
 import { redirect } from "next/navigation";
 import { CreatePostImg } from "./CreatePostImg";
-import Link from "next/link";
 import SignInButton from "@/components/features/auth/SignInButton";
-import CreateLogo from "@/components/features/layout/CreateLogo";
-import {
-  LayoutSubTitle,
-  LayoutTitle,
-} from "@/components/features/layout/Layout";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { PowerpostImg } from "./PowerPostsImg";
 
 export default async function Home() {

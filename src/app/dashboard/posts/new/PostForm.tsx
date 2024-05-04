@@ -41,6 +41,7 @@ import {
 import { toast } from "sonner";
 import Link from "next/link";
 import { revalidatePosts } from "@/lib/actions";
+import StripeDescription from "../../(dashboard)/stripeDescription";
 
 export type PostFormProps = {
   defaultSource?: string;
@@ -160,6 +161,15 @@ const PostForm = (props: PostFormProps) => {
       {postMutation.isPending && <PostFormLoader />}
       {/* <PostFormLoader /> */}
       {postMutation.isSuccess && <div>Post created successfully</div>}
+      <Card>
+        <CardHeader>
+          <CardDescription>
+            You have{" "}
+            <span className="text-primary bold">{user?.credits} credits</span>{" "}
+            left
+          </CardDescription>
+        </CardHeader>
+      </Card>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

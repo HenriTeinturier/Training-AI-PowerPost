@@ -23,6 +23,9 @@ import StripeDescription from "./stripeDescription";
 import { LastPowerPosts } from "./lastPowerPosts";
 import TotalPostDescription from "./totalPostDescription";
 import PostGraph from "./postGraph";
+import { headers } from "next/headers";
+import { userAgent } from "next/server";
+import { request } from "https";
 
 export interface SearchParams {
   success?: string;
@@ -31,6 +34,7 @@ export interface SearchParams {
   premium?: string;
   pack?: string;
   [key: string]: string | string[] | undefined;
+  viewport?: "mobile" | "desktop";
 }
 
 export default async function Dashboard({
@@ -92,6 +96,7 @@ export default async function Dashboard({
           <div className="test w-full md:w-1/2 md:grow md:h-full ">
             <div className="flex flex-col md:h-full gap-4">
               {/* Welcome card */}
+
               <Card>
                 <CardHeader>
                   <CardTitle>Welcome {user?.name}</CardTitle>
@@ -116,62 +121,71 @@ export default async function Dashboard({
                 </CardContent>
               </Card>
 
-              <Suspense
-                fallback={
+              {/* 3 latest powerpost card */}
+              {searchParams?.viewport === "desktop" && (
+                <Suspense
+                  fallback={
+                    <Card className="md:h-full">
+                      <CardHeader>
+                        <CardTitle>
+                          <Skeleton className="h-[20px] w-[80x]" />{" "}
+                        </CardTitle>
+                        <CardDescription>
+                          <Skeleton className="h-[17px] w-[150x]" />
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <Skeleton className="h-[20px] w-full" />
+                        <Skeleton className="h-[20px] w-full" />
+                        <Skeleton className="h-[20px] w-full" />
+                      </CardContent>
+                    </Card>
+                  }
+                >
                   <Card className="md:h-full">
                     <CardHeader>
-                      <CardTitle>
-                        <Skeleton className="h-[20px] w-[80x]" />{" "}
-                      </CardTitle>
+                      <CardTitle>Powerpost</CardTitle>
                       <CardDescription>
-                        <Skeleton className="h-[17px] w-[150x]" />
+                        {"Three latest Powerposts"}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <Skeleton className="h-[20px] w-full" />
-                      <Skeleton className="h-[20px] w-full" />
-                      <Skeleton className="h-[20px] w-full" />
+                      <LastPowerPosts userId={user.id} displayType={"table"} />
                     </CardContent>
                   </Card>
-                }
-              >
-                <Card className="md:h-full">
-                  <CardHeader>
-                    <CardTitle>Powerpost</CardTitle>
-                    <CardDescription>
-                      {"Three latest Powerposts"}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <LastPowerPosts userId={user.id} displayType={"table"} />
-                  </CardContent>
-                </Card>
-              </Suspense>
+                </Suspense>
+              )}
             </div>
           </div>
           {/* right Cards */}
 
           <div className="test w-full md:h-full md:w-1/2 md:grow   ">
             <Card className="md:h-full flex flex-col flex-grow">
-              <CardHeader>
-                <CardTitle>Statistics</CardTitle>
-              </CardHeader>
+              {searchParams?.viewport !== "mobile" && (
+                <CardHeader>
+                  <CardTitle>Statistics</CardTitle>
+                </CardHeader>
+              )}
               <CardContent className="flex-grow flex flex-col  ">
-                <Suspense
-                  fallback={
-                    <div className=" flex items-center space-x-4 mb-6">
-                      <Skeleton className=" rounded-full h-[24px] w-[24px] " />
-                      <div className="flex-1 space-y-1">
-                        <Skeleton className="h-[20px] w-[120px]" />
-                        <Skeleton className="h-[17px] w-[150px]" />
-                      </div>
-                    </div>
-                  }
-                >
-                  <TotalPostDescription />
-                </Suspense>
+                {searchParams?.viewport !== "mobile" && (
+                  <>
+                    <Suspense
+                      fallback={
+                        <div className=" flex items-center space-x-4 mb-6">
+                          <Skeleton className=" rounded-full h-[24px] w-[24px] " />
+                          <div className="flex-1 space-y-1">
+                            <Skeleton className="h-[20px] w-[120px]" />
+                            <Skeleton className="h-[17px] w-[150px]" />
+                          </div>
+                        </div>
+                      }
+                    >
+                      <TotalPostDescription />
+                    </Suspense>
 
-                <Separator className="my-4" />
+                    <Separator className="my-4" />
+                  </>
+                )}
                 <Suspense
                   fallback={
                     <div className=" flex flex-col flex-grow justify-center items-center space-x-4 h-28 mt-6 ">
