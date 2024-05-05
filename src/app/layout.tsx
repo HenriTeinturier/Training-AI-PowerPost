@@ -15,10 +15,19 @@ export const metadata: Metadata = {
   description:
     "Generate a post from a URL with AI. Demonstrate my expertise and capability to create SAAS products. You can see my portfolio on www.henriteinturier.com or my linkedin on https://www.linkedin.com/in/henri-teinturier/",
   metadataBase: new URL("https://www.powerpost.henriteinturier.com"),
+
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://www.powerpost.henriteinturier.com",
+    images: [
+      {
+        url: "/assets/logos/logoDarkBg.png",
+        width: 1000,
+        height: 1000,
+        alt: "PowerPost",
+      },
+    ],
   },
 };
 

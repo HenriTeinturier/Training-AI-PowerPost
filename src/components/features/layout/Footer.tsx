@@ -22,7 +22,6 @@ export const Footer = () => {
               </a>
               <a
                 href="https://github.com/HenriTeinturier"
-                p
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cursor-pointer"
