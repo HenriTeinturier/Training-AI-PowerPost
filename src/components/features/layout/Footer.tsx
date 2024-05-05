@@ -1,4 +1,5 @@
 import { Github, Linkedin } from "lucide-react";
+import Link from "next/link";
 
 export const Footer = () => {
   return (
@@ -11,8 +12,23 @@ export const Footer = () => {
 
           <div className="flex flex-1 items-center justify-end space-x-4">
             <nav className="flex items-center space-x-2 ">
-              <Linkedin size={16} />
-              <Github size={16} />
+              <a
+                href="https://www.linkedin.com/feed/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cursor-pointer"
+              >
+                <Linkedin size={16} />
+              </a>
+              <a
+                href="https://github.com/HenriTeinturier"
+                p
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cursor-pointer"
+              >
+                <Github size={16} />
+              </a>
             </nav>
           </div>
         </div>
