@@ -203,12 +203,6 @@ export default async function Dashboard({
             </Card>
           </div>
         </div>
-        {/* TODO: reactivate before production */}
-        {/* <div>
-          <Suspense fallback={<Loader className="text-primary" />}>
-          <NewsPropal />
-          </Suspense>
-        </div> */}
         <Suspense
           fallback={
             <Card>
