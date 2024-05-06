@@ -4,6 +4,8 @@ import { Post, PostMode } from "@prisma/client";
 import { headers } from "next/headers";
 import { PostsFilter } from "./datasFunctionUtils";
 import { prisma } from "@/prisma";
+import { requiredAuth } from "@/auth/helper";
+import { redirect } from "next/navigation";
 
 export async function getPosts(
   searchParams: PostsFilter
@@ -32,11 +34,21 @@ export async function getModesCount(): Promise<
   { name: string; total: number }[] | null
 > {
   "use server";
+
+  const user = await requiredAuth();
+
+  if (!user || !user?.stripeCustomerId) {
+    redirect("/");
+  }
+
   try {
     const modes = await prisma.post.groupBy({
       by: ["mode"],
       _count: {
         mode: true,
+      },
+      where: {
+        userId: user.id,
       },
     });
 
