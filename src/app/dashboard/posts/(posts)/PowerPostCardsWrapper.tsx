@@ -35,7 +35,7 @@ const PowerPostCardsWrapper = ({
 
   useEffect(() => {
     if (isSuccess) {
-      setTotalPage(data?.count);
+      setTotalPage(data?.count || 1);
     }
   }, [isSuccess, data]);
 

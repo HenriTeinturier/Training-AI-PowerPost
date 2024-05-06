@@ -91,6 +91,7 @@ export default async function Dashboard({
             </CardHeader>
           </Card>
         ) : null}
+        {/* Main widgets (welcome / stat / Powerpost) */}
         <div className="flex  flex-row flex-wrap md:flex-nowrap   gap-4 ">
           {/* LeftCards */}
           <div className="test w-full md:w-1/2 md:grow md:h-full ">
@@ -203,6 +204,7 @@ export default async function Dashboard({
             </Card>
           </div>
         </div>
+        {/* Last PowerPost Cards */}
         <Suspense
           fallback={
             <Card>
